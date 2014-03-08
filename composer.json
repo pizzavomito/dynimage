@@ -1,0 +1,25 @@
+{
+    "name": "dynimage/dynimage",
+    "description": "...",
+    "keywords": ["silex"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pascal Roux",
+            "email": "pascal@roux.fr"
+        }
+    ],
+    "require": {
+        "silex/silex": "~1.1",
+        "imagine/imagine": "0.6.*@dev",
+        "symfony/config": "2.3.*@dev",
+        "symfony/dependency-injection": "2.2.*@dev",
+        "symfony/yaml": "2.3.*@dev"
+
+    },
+    "autoload": {
+        "psr-0": { "Igorw\\Silex": "src","DynImage": "dynimage/src/",
+            "Plugin": "dynimage/addon/", 
+            "Filter": "dynimage/addon/" }
+    }
+}

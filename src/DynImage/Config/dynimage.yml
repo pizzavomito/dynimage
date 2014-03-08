@@ -1,0 +1,5 @@
+services:
+  dynimage:
+    class: DynImage\DynImage
+    tags:
+       - {name: dynimage}

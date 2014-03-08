@@ -1,0 +1,9 @@
+parameters:
+  
+  
+services:    
+    plugin.imagedownloader:
+        class: Plugin\ImageDownloader\ImageDownloader
+        tags:
+          - {name: plugin}
+       

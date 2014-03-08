@@ -1,0 +1,10 @@
+parameters:
+  plugin.imageloader.depth: 10
+
+  
+services:    
+    plugin.imageloader:
+        class: Plugin\ImageLoader\ImageLoader
+        tags:
+          - {name: plugin}
+       
