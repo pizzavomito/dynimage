@@ -19,8 +19,8 @@
     },
     "autoload": {
         "psr-0": { 
-            "DynImage": "dynimage/src/",
-            "Plugin": "dynimage/addon/", 
-            "Filter": "dynimage/addon/" }
+            "DynImage": "src/",
+            "Plugin": "addon/", 
+            "Filter": "addon/" }
     }
 }
