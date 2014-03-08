@@ -18,7 +18,8 @@
 
     },
     "autoload": {
-        "psr-0": { "Igorw\\Silex": "src","DynImage": "dynimage/src/",
+        "psr-0": { 
+            "DynImage": "dynimage/src/",
             "Plugin": "dynimage/addon/", 
             "Filter": "dynimage/addon/" }
     }
