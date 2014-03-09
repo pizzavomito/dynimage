@@ -65,11 +65,12 @@ class ImageLoader implements PluginInterface {
 
                     $app->abort(404, 'The image was not found.');
                 }
-
-                $app['dynimage.image.filename'] = $arguments['default'];
+                $app['dynimage.container']->get('imagerequest')->imagefilename = $arguments['default'];
+                //$app['dynimage.image.filename'] = $arguments['default'];
             } else {
                 //$app['monolog']->addDebug($path . $imageFilename);
-                $app['dynimage.image.filename'] = $path . $imageFilename;
+                //$app['dynimage.image.filename'] = $path . $imageFilename;
+                $app['dynimage.container']->get('imagerequest')->imagefilename = $path . $imageFilename;
             }
         }
     }

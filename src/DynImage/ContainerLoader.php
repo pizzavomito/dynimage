@@ -1,10 +1,10 @@
 <?php
 
-namespace DynImage\Loader;
+namespace DynImage;
 
 use Silex\Application;
-use DynImage\DynImageExtension;
-use DynImage\DynImageCompilerPass;
+use DynImage\Extension;
+use DynImage\CompilerPass;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -61,12 +61,13 @@ class ContainerLoader {
             $loader = new YamlFileLoader($container, new FileLocator($this->container_dir . '/' . $this->dir));
 
             $loader->load($this->filename);
-            //permet d'ajouter dynimage en tant que service dans le container
-            $extension = new DynImageExtension();
+            /**/
+            //permet d'ajouter imageRequest en tant que service dans le container
+            $extension = new Extension();
             $container->registerExtension($extension);
             $container->loadFromExtension($extension->getAlias());
-            $container->addCompilerPass(new DynImageCompilerPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
-
+            $container->addCompilerPass(new CompilerPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
+            /**/
 
             $container->compile();
 
@@ -77,7 +78,7 @@ class ContainerLoader {
         }
         $filename = pathinfo($this->cachedfilename, PATHINFO_FILENAME);
         require $this->cache_dir . '/' . $filename . '.php';
-        $app['dynimage.container'] = new $className;
+        return new $className;
     }
 
 }

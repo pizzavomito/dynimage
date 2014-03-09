@@ -5,7 +5,7 @@ namespace Filter\Watermark;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 /**
  * Description of Watermark
  *
@@ -34,15 +34,15 @@ class Watermark implements FilterInterface {
         $arguments = $this->arguments;
 
 
-        $dynimage_arguments = $app['dynimage']->arguments;
+        $dynimage_arguments = $app['dynimage.container']->get('imagerequest')->arguments;
 
         if ($dynimage_arguments['lib'] == 'Imagick') {
-            $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+            $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
                 $app['monolog']->addDebug('entering watermark connect');
                 //if (!is_null($arguments)) {
 
 
-                $image = $app['dynimage.image']->getImagick();
+                $image = $app['dynimage.container']->get('imagerequest')->image->getImagick();
                
 
                 $watermark = new \Imagick();

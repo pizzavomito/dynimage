@@ -10,21 +10,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author pascal.roux
  */
-class DynImageCompilerPass implements CompilerPassInterface {
+class CompilerPass implements CompilerPassInterface {
     
     public function process (ContainerBuilder $container) {
         foreach($container->getDefinitions() as $id => $definition) {
-            /** /
-            if(array_key_exists('plugin',$definition->getTags())) {
-                continue;
-            }
-            
-            if(array_key_exists('filter',$definition->getTags())) {
-                continue;
-            }
-            /**/
-            if(array_key_exists('dynimage',$definition->getTags())) {
-                //passe tous les parameters du container à l'instance du dynimage
+
+            if(array_key_exists('imagerequest',$definition->getTags())) {
+                //passe tous les parameters du container à l'instance du imagerequest
                 $definition->setArguments(array($container->getParameterBag()->all()));
                 
                 

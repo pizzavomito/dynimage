@@ -14,7 +14,8 @@ class Plugins {
     
     static public function init(Application $app) {
      
-        $plugins = $app['dynimage.plugin_loader']->load('plugins.yml', $app['debug']);
+        $pluginsLoader = new PluginsLoader($app['dynimage']['plugins_dir'],$app['dynimage']['cache_dir']);
+        $plugins = $pluginsLoader->load('plugins.yml', $app['debug']);
 
         foreach ($plugins->getServiceIds() as $id) {
             if ($id != 'service_container') {

@@ -5,7 +5,7 @@ namespace Filter\Blur;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 /**
  * Blur 
  *
@@ -29,13 +29,13 @@ class Blur implements FilterInterface {
 
         $arguments = $this->arguments;
 
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
 
             $app['monolog']->addDebug('entering blur connect');
 
             if (!is_null($arguments)) {
                
-                $app['dynimage.image']->effects()->blur($arguments['sigma']);
+                $app['dynimage.container']->get('imagerequest')->image->effects()->blur($arguments['sigma']);
             }
         });
     }

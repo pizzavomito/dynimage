@@ -1,7 +1,7 @@
 {
     "name": "dynimage/dynimage",
     "description": "...",
-    "keywords": ["silex"],
+    "keywords": ["dynimage"],
     "license": "MIT",
     "authors": [
         {
@@ -20,7 +20,7 @@
     "autoload": {
         "psr-0": { 
             "DynImage": "src/",
-            "Plugin": "addon/", 
-            "Filter": "addon/" }
+            "DynImagePlugin": "addon/", 
+            "DynImageFilter": "addon/" }
     }
 }

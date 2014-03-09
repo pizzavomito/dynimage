@@ -1,0 +1,5 @@
+services:
+  imagerequest:
+    class: DynImage\ImageRequest
+    tags:
+       - {name: imagerequest}

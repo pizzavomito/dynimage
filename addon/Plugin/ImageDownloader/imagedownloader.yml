@@ -1,5 +1,5 @@
 parameters:
-  
+    plugin.imagedownloader.depth: 10  
   
 services:    
     plugin.imagedownloader:

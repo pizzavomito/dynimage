@@ -14,20 +14,20 @@ use Symfony\Component\Config\FileLocator;
  *
  * @author pascal.roux
  */
-class DynImageExtension implements ExtensionInterface {
+class Extension implements ExtensionInterface {
 
     public function load(array $configs, ContainerBuilder $container) {
 
         $loader = new YamlFileLoader(
                         $container,
-                        new FileLocator(__DIR__ . '/Config')
+                        new FileLocator(__DIR__)
         );
         $loader->load('dynimage.yml');
        
     }
 
     public function getAlias() {
-        return 'DynImage';
+        return 'ImageRequest';
     }
 
     public function getXsdValidationBasePath() {

@@ -6,7 +6,7 @@ use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Imagine\Image\Box;
-
+use DynImage\Events;
 /**
  * Creation de miniature
  *
@@ -24,13 +24,13 @@ class Thumb implements FilterInterface {
 
         $arguments = $this->arguments;
 
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
 
             $app['monolog']->addDebug('entering thumb connect');
 
             if (!is_null($arguments)) {
 
-                $app['dynimage.image'] = $app['dynimage.image']->thumbnail(new Box($arguments['width'], $arguments['height']));
+                $app['dynimage.container']->get('imagerequest')->image = $app['dynimage.container']->get('imagerequest')->image->thumbnail(new Box($arguments['width'], $arguments['height']));
             }
         });
     }

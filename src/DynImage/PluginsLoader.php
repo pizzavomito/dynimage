@@ -1,6 +1,6 @@
 <?php
 
-namespace DynImage\Loader;
+namespace DynImage;
 
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -11,7 +11,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * Charge les plugins et dump dans le cache
  */
-class PluginLoader {
+class PluginsLoader {
 
     private $plugin_dir;
     private $cache_dir;

@@ -9,7 +9,7 @@ use Imagine\Image\Box;
 use Imagine\Image\Color;
 use Imagine\Image\Point;
 use Imagine\Image\Fill\Gradient\Vertical;
-
+use DynImage\Events;
 /**
  * Effet Reflection
  *
@@ -32,7 +32,7 @@ class Reflect implements FilterInterface {
 
     public function connect(Request $request, Application $app) {
         $arguments = $this->arguments;
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
             $app['monolog']->addDebug('entering reflect connect');
 
             $size = $app['dynimage.image']->getSize();

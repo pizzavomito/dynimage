@@ -17,10 +17,8 @@ class ImageLoaderControllerProvider implements ControllerProviderInterface {
         $app['monolog']->addDebug('entering imageloadercontroller connect');
         $controllers = $app['controllers_factory'];
 
-        $controllers->before('DynImage\DynImage::prepare')
-                ->before('DynImage\DynImage::build')
-                ->before('DynImage\DynImage::setting')
-                ->before('DynImage\DynImage::imagine');
+        $controllers->before('DynImage\DynImage::boot');
+        $controllers->after('DynImage\DynImage::terminate');
 
 
         $depth = $app['plugin.imageloader.depth'];
@@ -32,17 +30,16 @@ class ImageLoaderControllerProvider implements ControllerProviderInterface {
             $controllers->get('/{namespace}/{containerFilename}' . $dir . '/{imageFilename}', function (Request $request) use ($app) {
                 $response = new Response;
                 $app['monolog']->addDebug('entering imageloader controller');
-                return DynImage::response($request, $response, $app);
+                //return DynImage::terminate($request, $response, $app);
+                return $response;
             });
-
-            
         }
 
         $controllers->get('/{namespace}/{containerFilename}/{imageFilename}', function (Request $request) use ($app) {
 
             $response = new Response;
             $app['monolog']->addDebug('entering imageloader controller');
-            return DynImage::response($request, $response, $app);
+            return $response;
         });
 
 

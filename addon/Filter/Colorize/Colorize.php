@@ -5,7 +5,7 @@ namespace Filter\Colorize;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 /**
  * Colorize 
  *
@@ -23,14 +23,14 @@ class Colorize implements FilterInterface {
 
         $arguments = $this->arguments;
 
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
 
             $app['monolog']->addDebug('entering colorize connect');
 
             if (!is_null($arguments)) {
-                $color = $app['dynimage.image']->palette()->color($arguments['color']);
+                $color = $app['dynimage.container']->get('imagerequest')->image->palette()->color($arguments['color']);
 
-                $app['dynimage.image']->effects()->colorize($color);
+                $app['dynimage.container']->get('imagerequest')->image->effects()->colorize($color);
             }
         });
     }

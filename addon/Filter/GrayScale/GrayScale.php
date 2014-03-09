@@ -5,7 +5,7 @@ namespace Filter\GrayScale;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 
 /**
  * Noir et blanc
@@ -24,11 +24,11 @@ class GrayScale implements FilterInterface {
 
         
 
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app) {
 
             $app['monolog']->addDebug('entering grayscale connect');
 
-            $app['dynimage.image']->effects()->grayscale();
+            $app['dynimage.container']->get('imagerequest')->image->effects()->grayscale();
             
         });
     }

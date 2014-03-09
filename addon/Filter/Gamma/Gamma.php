@@ -5,7 +5,7 @@ namespace Filter\Gamma;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 /**
  * Gamma correction
  *
@@ -23,13 +23,13 @@ class Gamma implements FilterInterface {
 
         $arguments = $this->arguments;
 
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
 
             $app['monolog']->addDebug('entering gamma connect');
 
             if (!is_null($arguments)) {
 
-                $app['dynimage.image']->effects()->gamma($arguments['correction']);
+                $app['dynimage.container']->get('imagerequest')->image->effects()->gamma($arguments['correction']);
             }
         });
     }

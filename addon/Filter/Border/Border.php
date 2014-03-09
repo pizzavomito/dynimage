@@ -5,7 +5,7 @@ namespace Filter\Border;
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
-
+use DynImage\Events;
 /**
  * Ajoute une bordure
  *
@@ -30,7 +30,7 @@ class Border implements FilterInterface {
     public function connect(Request $request, Application $app) {
 
         $arguments = $this->arguments;
-        $app['dispatcher']->addListener('dynimage.imagine', function () use ($app, $arguments) {
+        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
             
             $app['monolog']->addDebug('entering border connect');
             if (!is_null($arguments)) {
@@ -38,7 +38,7 @@ class Border implements FilterInterface {
                 $color = new \Imagine\Image\Color($arguments['color']);
                 $c = new \Imagine\Filter\Advanced\Border($color, $arguments['width'], $arguments['height']);
 
-                $app['dynimage.image'] = $c->apply($app['dynimage.image']);
+                $app['dynimage.container']->get('imagerequest')->image = $c->apply($app['dynimage.container']->get('imagerequest')->image);
             }
             
         });
