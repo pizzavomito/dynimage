@@ -20,7 +20,7 @@
     "autoload": {
         "psr-0": { 
             "DynImage": "src/",
-            "DynImagePlugin": "addon/", 
-            "DynImageFilter": "addon/" }
+            "Plugin": "addon/", 
+            "Filter": "addon/" }
     }
 }
