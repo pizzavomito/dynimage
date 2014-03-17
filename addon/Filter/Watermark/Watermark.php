@@ -34,7 +34,7 @@ class Watermark implements FilterInterface {
         $arguments = $this->arguments;
 
 
-        $dynimage_arguments = $app['dynimage.container']->get('imagerequest')->arguments;
+        $dynimage_arguments = $app['dynimage.module']->get('imagerequest')->arguments;
 
         if ($dynimage_arguments['lib'] == 'Imagick') {
             $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
@@ -42,7 +42,7 @@ class Watermark implements FilterInterface {
                 //if (!is_null($arguments)) {
 
 
-                $image = $app['dynimage.container']->get('imagerequest')->image->getImagick();
+                $image = $app['dynimage.module']->get('imagerequest')->image->getImagick();
                
 
                 $watermark = new \Imagick();

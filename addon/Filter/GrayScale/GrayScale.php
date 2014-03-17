@@ -17,7 +17,7 @@ class GrayScale implements FilterInterface {
     public $arguments;
 
     public function __construct() {
-        
+        error_log('entering grayscale construct');
     }
 
     public function connect(Request $request, Application $app) {
@@ -25,10 +25,10 @@ class GrayScale implements FilterInterface {
         
 
         $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app) {
-
+            error_log('entering grayscale connect');
             $app['monolog']->addDebug('entering grayscale connect');
 
-            $app['dynimage.container']->get('imagerequest')->image->effects()->grayscale();
+            $app['dynimage.module']->get('imagerequest')->image->effects()->grayscale();
             
         });
     }

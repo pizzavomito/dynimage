@@ -30,7 +30,7 @@ class Thumb implements FilterInterface {
 
             if (!is_null($arguments)) {
 
-                $app['dynimage.container']->get('imagerequest')->image = $app['dynimage.container']->get('imagerequest')->image->thumbnail(new Box($arguments['width'], $arguments['height']));
+                $app['dynimage.module']->get('imagerequest')->image = $app['dynimage.module']->get('imagerequest')->image->thumbnail(new Box($arguments['width'], $arguments['height']));
             }
         });
     }

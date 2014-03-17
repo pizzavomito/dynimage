@@ -34,9 +34,9 @@ class Shadow implements FilterInterface {
         $arguments = $this->arguments;
 
 
-       // $dynimage_arguments = $app['dynimage.container']->get('imagerequest')->arguments;
+       // $dynimage_arguments = $app['dynimage.module']->get('imagerequest')->arguments;
 
-        if ($app['dynimage.container']->get('imagerequest')->arguments['lib'] == 'Imagick') {
+        if ($app['dynimage.module']->get('imagerequest')->arguments['lib'] == 'Imagick') {
             $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
                 $app['monolog']->addDebug('entering shadow connect');
 
@@ -45,18 +45,18 @@ class Shadow implements FilterInterface {
                     $palette = new \Imagine\Image\Palette\RGB();
                     $color = $palette->color($arguments['color']);
                    
-                    $shadow = $app['dynimage.container']->get('imagerequest')->imagine->create($app['dynimage.container']->get('imagerequest')->image->getSize(), $color);
+                    $shadow = $app['dynimage.module']->get('imagerequest')->imagine->create($app['dynimage.module']->get('imagerequest')->image->getSize(), $color);
 
                     $im = new \Imagick();
                     $im->readImageBlob($shadow);
                     $im->shadowimage($arguments['opacity'], $arguments['sigma'], $arguments['x'], $arguments['y']);
                     $image = new \Imagick();
-                    $image->readImageBlob($app['dynimage.container']->get('imagerequest')->image);
+                    $image->readImageBlob($app['dynimage.module']->get('imagerequest')->image);
                     //$image = $app['dynimage.image']->getImagick();
                     $im->compositeImage($image, \Imagick::COMPOSITE_OVER, 0, 0);
                     //$image->readImageBlob($im);
                     //$app['dynimage.image'] = $im;
-                    $app['dynimage.container']->get('imagerequest')->image = new \Imagine\Imagick\Image($im, $app['dynimage.container']->get('imagerequest')->image->palette());
+                    $app['dynimage.module']->get('imagerequest')->image = new \Imagine\Imagick\Image($im, $app['dynimage.module']->get('imagerequest')->image->palette());
                 }
                
             });

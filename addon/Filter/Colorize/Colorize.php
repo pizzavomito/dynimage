@@ -28,9 +28,9 @@ class Colorize implements FilterInterface {
             $app['monolog']->addDebug('entering colorize connect');
 
             if (!is_null($arguments)) {
-                $color = $app['dynimage.container']->get('imagerequest')->image->palette()->color($arguments['color']);
+                $color = $app['dynimage.module']->get('imagerequest')->image->palette()->color($arguments['color']);
 
-                $app['dynimage.container']->get('imagerequest')->image->effects()->colorize($color);
+                $app['dynimage.module']->get('imagerequest')->image->effects()->colorize($color);
             }
         });
     }

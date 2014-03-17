@@ -27,7 +27,7 @@ class ImageLoaderControllerProvider implements ControllerProviderInterface {
         for ($index = 0; $index < $depth; $index++) {
             $dir .= '/{dir' . $index . '}';
 
-            $controllers->get('/{namespace}/{containerFilename}' . $dir . '/{imageFilename}', function (Request $request) use ($app) {
+            $controllers->get('/{package}/{module}' . $dir . '/{imageFilename}', function (Request $request) use ($app) {
                 $response = new Response;
                 $app['monolog']->addDebug('entering imageloader controller');
                 //return DynImage::terminate($request, $response, $app);
@@ -35,7 +35,7 @@ class ImageLoaderControllerProvider implements ControllerProviderInterface {
             });
         }
 
-        $controllers->get('/{namespace}/{containerFilename}/{imageFilename}', function (Request $request) use ($app) {
+        $controllers->get('/{package}/{module}/{imageFilename}', function (Request $request) use ($app) {
 
             $response = new Response;
             $app['monolog']->addDebug('entering imageloader controller');

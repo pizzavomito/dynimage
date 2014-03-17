@@ -38,7 +38,7 @@ class Border implements FilterInterface {
                 $color = new \Imagine\Image\Color($arguments['color']);
                 $c = new \Imagine\Filter\Advanced\Border($color, $arguments['width'], $arguments['height']);
 
-                $app['dynimage.container']->get('imagerequest')->image = $c->apply($app['dynimage.container']->get('imagerequest')->image);
+                $app['dynimage.module']->get('imagerequest')->image = $c->apply($app['dynimage.module']->get('imagerequest')->image);
             }
             
         });

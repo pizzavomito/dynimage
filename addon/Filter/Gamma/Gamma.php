@@ -29,7 +29,7 @@ class Gamma implements FilterInterface {
 
             if (!is_null($arguments)) {
 
-                $app['dynimage.container']->get('imagerequest')->image->effects()->gamma($arguments['correction']);
+                $app['dynimage.module']->get('imagerequest')->image->effects()->gamma($arguments['correction']);
             }
         });
     }

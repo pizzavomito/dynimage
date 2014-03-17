@@ -16,7 +16,7 @@ class ControllerProvider implements ControllerProviderInterface {
 
     public function connect(Application $app) {
 
-        Plugins::init($app);
+        Plugins::init($app['dynimage']['plugins_dir'],$app['dynimage']['cache_dir'],$app['debug'],$app);
 
         $controllers = $app['controllers_factory'];
 
@@ -25,7 +25,7 @@ class ControllerProvider implements ControllerProviderInterface {
         
         if (!isset($app['dynimage']['routes'])) {
             $app['dynimage']['routes'] = array(
-                'main' => '/{namespace}/{containerFilename}',
+                'main' => '/{package}/{module}',
             );
         }
 

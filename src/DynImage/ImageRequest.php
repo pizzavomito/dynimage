@@ -23,7 +23,7 @@ class ImageRequest {
             $arguments = array();
         }
         $this->arguments = array_replace_recursive($default_arguments, $arguments);
-        //$this->arguments = $arguments;
+       
     }
 
 }

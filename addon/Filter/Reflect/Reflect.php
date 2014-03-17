@@ -35,24 +35,28 @@ class Reflect implements FilterInterface {
         $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
             $app['monolog']->addDebug('entering reflect connect');
 
-            $size = $app['dynimage.image']->getSize();
+            $size = $app['dynimage.module']->get('imagerequest')->image->getSize();
             $canvas = new Box($size->getWidth(), $size->getHeight() * 2);
-
-            $white = new Color($arguments['color']);
+            
+            $palette = new \Imagine\Image\Palette\RGB();
+            $white = $palette->color($arguments['color']);
+           
             $fill = new Vertical(
                     $size->getHeight(), $white->darken(127), $white
             );
 
-            $tr = $app['imagine']->create($size)
+            $tr = $app['dynimage.module']->get('imagerequest')->imagine->create($size)
                     ->fill($fill);
 
-            $reflection = $app['dynimage.image']->copy()
+            $reflection = $app['dynimage.module']->get('imagerequest')->image->copy()
                     ->flipVertically()
                     ->applyMask($tr)
             ;
-
-            $app['dynimage.image'] = $app['imagine']->create($canvas, new Color($arguments['color'], 100))
-                    ->paste($app['dynimage.image'], new Point(0, 0))
+            $palette = new \Imagine\Image\Palette\RGB();
+            $color = $palette->color($arguments['color']);
+            
+            $app['dynimage.module']->get('imagerequest')->image = $app['dynimage.module']->get('imagerequest')->imagine->create($canvas, $color)
+                    ->paste($app['dynimage.module']->get('imagerequest')->image, new Point(0, 0))
                     ->paste($reflection, new Point(0, $size->getHeight()));
         });
     }

@@ -35,7 +35,7 @@ class Blur implements FilterInterface {
 
             if (!is_null($arguments)) {
                
-                $app['dynimage.container']->get('imagerequest')->image->effects()->blur($arguments['sigma']);
+                $app['dynimage.module']->get('imagerequest')->image->effects()->blur($arguments['sigma']);
             }
         });
     }

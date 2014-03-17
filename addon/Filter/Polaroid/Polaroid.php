@@ -29,7 +29,7 @@ class Polaroid implements FilterInterface {
     public function connect(Request $request, Application $app) {
         $arguments = $this->arguments;
 
-        $dynimage_arguments = $app['dynimage.container']->get('imagerequest')->arguments;
+        $dynimage_arguments = $app['dynimage.module']->get('imagerequest')->arguments;
 
         if ($dynimage_arguments['lib'] == 'Imagick') {
             $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
@@ -37,14 +37,15 @@ class Polaroid implements FilterInterface {
                 if (!is_null($arguments)) {
 
                     $im = new \Imagick();
-                    //$im = $app['dynimage.container']->get('imagerequest')->image->getImagick();
-                    $im->readImageBlob($app['dynimage.container']->get('imagerequest')->image);
+                    //$im = $app['dynimage.module']->get('imagerequest')->image->getImagick();
+                    $im->readImageBlob($app['dynimage.module']->get('imagerequest')->image);
                     $angle = $arguments['angle'];
                     if ($arguments['random_angle']) {
                         $angle = rand(-45,45);
                     }
                     $im->polaroidImage(new \ImagickDraw(), $angle);
-                    $app['dynimage.container']->get('imagerequest')->image = new \Imagine\Imagick\Image($im,$app['dynimage.container']->get('imagerequest')->image->palette());
+                    //$app['dynimage.module']->get('imagerequest')->image->getImagick()->polaroidImage(new \ImagickDraw(), $angle);
+                    $app['dynimage.module']->get('imagerequest')->image = new \Imagine\Imagick\Image($im,$app['dynimage.module']->get('imagerequest')->image->palette());
                 }
             });
         }

@@ -65,11 +65,11 @@ class ImageDownloader implements PluginInterface {
 
                     $app->abort(404, 'The image was not found.');
                 }
-                $app['dynimage.container']->get('imagerequest')->imagefilename = $arguments['default'];
+                $app['dynimage.module']->get('imagerequest')->imagefilename = $arguments['default'];
                 
             } else {
                 
-                $app['dynimage.container']->get('imagerequest')->imagefilename = $path . $imageFilename;
+                $app['dynimage.module']->get('imagerequest')->imagefilename = $path . $imageFilename;
             }
             
         }
@@ -78,9 +78,9 @@ class ImageDownloader implements PluginInterface {
     static public function terminate(Request $request, Response $response, Application $app) {
         $app['monolog']->addDebug('entering imagedownloader terminate');
     
-        return $app->sendFile($app['dynimage.container']->get('imagerequest')->imagefilename)
-                ->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, basename($app['dynimage.container']->get('imagerequest')->imagefilename));
-        //$response->headers->set('Content-Disposition', 'attachment; filename="' . basename($app['dynimage.container']->get('imagerequest')->imagefilename) . '"');
+        return $app->sendFile($app['dynimage.module']->get('imagerequest')->imagefilename)
+                ->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, basename($app['dynimage.module']->get('imagerequest')->imagefilename));
+        //$response->headers->set('Content-Disposition', 'attachment; filename="' . basename($app['dynimage.module']->get('imagerequest')->imagefilename) . '"');
 
     }
 

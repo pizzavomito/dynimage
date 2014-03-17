@@ -1,0 +1,9 @@
+parameters:
+    class_thumb : Filter/Thumb/Thumb
+    
+    
+services:
+    thumb100x100:
+        class: %class_thumb%
+        arguments:
+            - ['height':100, 'width':100]
