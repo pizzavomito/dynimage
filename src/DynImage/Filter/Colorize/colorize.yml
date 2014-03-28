@@ -1,0 +1,67 @@
+parameters:
+    colorize_class: DynImage\Filter\Colorize\Colorize
+    
+services:
+    
+    colorize_black:
+        class: %colorize_class%
+        arguments:
+            - {color: '#000000'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_white:
+        class: %colorize_class%
+        arguments:
+            - {color: '#ffffff'}
+        tags:
+            - {name: dynimage.filter}
+
+    colorize_orange:
+        class: %colorize_class%
+        arguments:
+            - {color: '#ff9900'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_red:
+        class: %colorize_class%
+        arguments:
+            - {color: '#ff0000'}
+        tags:
+            - {name: dynimage.filter}
+       
+    colorize_pink:
+        class: %colorize_class%
+        arguments:
+            - {color: '#ff69b4'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_green:
+        class: %colorize_class%
+        arguments:
+            - {color: '#00ff00'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_yellow:
+        class: %colorize_class%
+        arguments:
+            - {color: '#ffff00'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_gray:
+        class: %colorize_class%
+        arguments:
+            - {color: '#d3d3d3'}
+        tags:
+            - {name: dynimage.filter}
+            
+    colorize_blue:
+        class: %colorize_class%
+        arguments:
+            - {color: '#0000ff'}
+        tags:
+            - {name: dynimage.filter}

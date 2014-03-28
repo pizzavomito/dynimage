@@ -1,6 +1,0 @@
-imports:
-    - { resource: ../addon/Plugin/ImageDownloader/imagedownloader.yml }
-    - { resource: ../addon/Plugin/ImageLoader/imageloader.yml }
-    
-    
-

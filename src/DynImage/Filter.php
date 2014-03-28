@@ -5,18 +5,18 @@ namespace DynImage;
 class Filter {
     protected $arguments;
     
-    protected $imagerequest;
+    protected $imageManager;
 
     public function __construct($arguments=null) {
         $this->arguments = $arguments;
-        error_log('entering filter construct');
+        
     }
     
-    public function connect($imagerequest,$dispatcher) {
+    public function connect($imageManager,$dispatcher) {
 
-        $this->imagerequest = $imagerequest;
-        error_log('entering filter connect');
-        $dispatcher->addListener($this->getEvent(), array($this, 'listener'));
+        $this->imageManager = $imageManager;
+        
+        $dispatcher->addListener($this->getEvent(), array($this, 'apply'));
     }
     
     

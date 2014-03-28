@@ -1,6 +1,6 @@
 <?php
 
-namespace Filter\Border;
+namespace DynImage\Filter\Border;
 
 use DynImage\FilterInterface;
 use DynImage\Events;
@@ -31,13 +31,14 @@ class Border extends Filter implements FilterInterface {
         return $this->event;
     }
 
-    public function listener() {
+    public function apply() {
         if (!is_null($this->arguments)) {
 
-            $color = new \Imagine\Image\Color($this->arguments['color']);
+            
+            $color = $this->imageManager->image->palette()->color($this->arguments['color']);
             $c = new \Imagine\Filter\Advanced\Border($color, $this->arguments['width'], $this->arguments['height']);
 
-            $this->imagerequest->image = $c->apply($this->imagerequest->image);
+            $this->imageManager->image = $c->apply($this->imageManager->image);
         }
     }
 

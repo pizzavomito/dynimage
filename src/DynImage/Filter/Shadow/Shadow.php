@@ -1,20 +1,21 @@
 <?php
 
-namespace Filter\Shadow;
+namespace DynImage\Filter\Shadow;
 
 use Silex\Application;
 use DynImage\FilterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use DynImage\Events;
+use DynImage\Filter;
 
 /**
  * Effet ombre portée
  *
  * @author pascal.roux
  */
-class Shadow implements FilterInterface {
+class Shadow extends Filter implements FilterInterface {
 
-    public $arguments;
+    private $event = Events::AFTER_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
         $default_arguments = array(
@@ -30,36 +31,27 @@ class Shadow implements FilterInterface {
         $this->arguments = array_replace_recursive($default_arguments, $arguments);
     }
 
-    public function connect(Request $request, Application $app) {
-        $arguments = $this->arguments;
+    public function getEvent() {
+        return $this->event;
+    }
 
+    public function apply() {
 
-       // $dynimage_arguments = $app['dynimage.module']->get('imagerequest')->arguments;
+        if ($this->imageManager->arguments['lib'] == 'Imagick') {
+            $palette = new \Imagine\Image\Palette\RGB();
+            $color = $palette->color($this->arguments['color']);
 
-        if ($app['dynimage.module']->get('imagerequest')->arguments['lib'] == 'Imagick') {
-            $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
-                $app['monolog']->addDebug('entering shadow connect');
+            $shadow = $this->imageManager->imagine->create($this->imageManager->image->getSize(), $color);
 
-                if (!is_null($arguments)) {
-
-                    $palette = new \Imagine\Image\Palette\RGB();
-                    $color = $palette->color($arguments['color']);
-                   
-                    $shadow = $app['dynimage.module']->get('imagerequest')->imagine->create($app['dynimage.module']->get('imagerequest')->image->getSize(), $color);
-
-                    $im = new \Imagick();
-                    $im->readImageBlob($shadow);
-                    $im->shadowimage($arguments['opacity'], $arguments['sigma'], $arguments['x'], $arguments['y']);
-                    $image = new \Imagick();
-                    $image->readImageBlob($app['dynimage.module']->get('imagerequest')->image);
-                    //$image = $app['dynimage.image']->getImagick();
-                    $im->compositeImage($image, \Imagick::COMPOSITE_OVER, 0, 0);
-                    //$image->readImageBlob($im);
-                    //$app['dynimage.image'] = $im;
-                    $app['dynimage.module']->get('imagerequest')->image = new \Imagine\Imagick\Image($im, $app['dynimage.module']->get('imagerequest')->image->palette());
-                }
-               
-            });
+            $im = new \Imagick();
+            $im->readImageBlob($shadow);
+            $im->shadowimage($this->arguments['opacity'], $this->arguments['sigma'], $this->arguments['x'], $this->arguments['y']);
+            $image = new \Imagick();
+            $image->readImageBlob($this->imageManager->image);
+          
+            $im->compositeImage($image, \Imagick::COMPOSITE_OVER, 0, 0);
+            
+            $this->imageManager->image = new \Imagine\Imagick\Image($im, $this->imageManager->image->palette());
         }
     }
 

@@ -17,22 +17,20 @@ class CompilerPass implements CompilerPassInterface {
 
         foreach ($container->getDefinitions() as $id => $definition) {
 
-            if (array_key_exists('dynimage.imagerequest', $definition->getTags())) {
+            if (array_key_exists('dynimage.image_manager', $definition->getTags())) {
                 //passe tous les parameters du container à l'instance du imagerequest
                 $definition->setArguments(array($container->getParameterBag()->all()));
                 continue;
             }
 
-            if (array_key_exists('filter', $definition->getTags())) {
+            if (array_key_exists('dynimage.filter', $definition->getTags())) {
               
                 
                 $dispatcher = new Reference('dispatcher');
 
-                $imagerequest = new Reference('imagerequest');
+                $imageManager = new Reference('image_manager');
 
-                
-
-                $definition->addMethodCall('connect', array($imagerequest, $dispatcher));
+                $definition->addMethodCall('connect', array($imageManager, $dispatcher));
             }
             
             

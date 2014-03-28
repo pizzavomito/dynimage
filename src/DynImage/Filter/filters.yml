@@ -2,3 +2,10 @@ imports:
     - { resource: Filter/Thumb/thumb.yml }
     - { resource: Filter/GrayScale/grayscale.yml }
     - { resource: Filter/Blur/blur.yml }
+    - { resource: Filter/Colorize/colorize.yml }
+    - { resource: Filter/Border/border.yml }
+    - { resource: Filter/Gamma/gamma.yml }
+    - { resource: Filter/Polaroid/polaroid.yml }
+    - { resource: Filter/Reflect/reflect.yml }
+    - { resource: Filter/RoundCorners/roundcorners.yml }
+    - { resource: Filter/Shadow/shadow.yml }

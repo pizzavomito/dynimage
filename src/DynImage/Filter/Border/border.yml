@@ -1,16 +1,18 @@
 parameters:
-   
+    border_class: DynImage\Filter\Border\Border
     
 services:
     
-    borderblack:
-        class: Filter\Border\Border
+    border_black:
+        class: %border_class%
+        arguments:
+            - {color: '#000000'}
         tags:
-            - {name: filter}
+            - {name: dynimage.filter}
             
-    borderwhite:
-        class: Filter\Border\Border
+    border_white:
+        class: %border_class%
         arguments:
             - {color: '#ffffff'}
         tags:
-            - {name: filter}
+            - {name: dynimage.filter}

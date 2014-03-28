@@ -4,6 +4,6 @@ parameters:
 services:
     
     grayscale:
-        class: Filter\GrayScale\GrayScale
+        class: DynImage\Filter\GrayScale\GrayScale
         tags:
-            - {name: filter}
+            - {name: dynimage.filter}

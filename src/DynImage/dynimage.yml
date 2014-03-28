@@ -10,7 +10,7 @@ services:
     class: Symfony\Component\EventDispatcher\EventDispatcher
     tags:
        - {name: dynimage.dispatcher}
-  imagerequest:
-    class: DynImage\ImageRequest
+  image_manager:
+    class: DynImage\ImageManager
     tags:
-       - {name: dynimage.imagerequest}
+       - {name: dynimage.image_manager}

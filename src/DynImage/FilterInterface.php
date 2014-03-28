@@ -9,7 +9,7 @@ interface FilterInterface
 {
     
     
-    public function listener();
+    public function apply();
     public function getEvent();
     
     

@@ -1,9 +1,0 @@
-parameters:
-    plugin.imagedownloader.depth: 10  
-  
-services:    
-    plugin.imagedownloader:
-        class: Plugin\ImageDownloader\ImageDownloader
-        tags:
-          - {name: plugin}
-       

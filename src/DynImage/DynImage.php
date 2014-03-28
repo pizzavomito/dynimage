@@ -50,7 +50,7 @@ class DynImage {
             if (isset($packages[$package]['enabled']) && !$packages[$package]['enabled']) {
                 throw new \InvalidArgumentException(
                 sprintf("The package '%s' is disabled.", $package));
-                // 404
+               
             }
 
             $moduleFilename = $packages[$package]['modules'][$moduleName];
@@ -58,200 +58,57 @@ class DynImage {
             $this->module = ModuleLoader::loadFromFile($moduleFilename, $package, $this->cache_dir, $this->env, $this->debug);
         }
 
-        $dynimage = $this->module->get('dynimage');
+ 
      
-
-        $imageRequest = $this->module->get('imagerequest');
-        if (is_null($imageRequest->arguments)) {
+        $imageManager = $this->module->get('image_manager');
+     
+        if (is_null($imageManager->arguments)) {
             throw new \InvalidArgumentException();
         }
 
-        if (isset($imageRequest->arguments['enabled']) && !$imageRequest->arguments['enabled']) {
+        if (isset($imageManager->arguments['enabled']) && !$imageManager->arguments['enabled']) {
             throw new NotFoundHttpException();
         }
 
         if (!is_null($imagefilename)) {
-            $imageRequest->imagefilename = $imageRequest->arguments['images_dir'].$imagefilename;
+            $imageManager->imagefilename = $imageManager->arguments['images_dir'].$imagefilename;
         }
 
-        if (isset($imageRequest->arguments['image'])) {
+        if (isset($imageManager->arguments['image'])) {
 
-            $imageRequest->imagefilename = $imageRequest->arguments['image'];
-        }
-        
-
-        if (!isset($imageRequest->imagefilename)) {
-            $imageRequest->imagefilename = '';
+            $imageManager->imagefilename = $imageManager->arguments['image'];
         }
         
+
+        if (!isset($imageManager->imagefilename)) {
+            $imageManager->imagefilename = '';
+        }
+        
+        $this->module->get('filter_manager');
         $this->module->get('dispatcher')->dispatch(Events::BEFORE_CREATE_IMAGE);
         
         
-        if (!file_exists($imageRequest->imagefilename)) {
-            if (!isset($imageRequest->arguments['default'])) {
+        if (!file_exists($imageManager->imagefilename)) {
+            if (!isset($imageManager->arguments['default'])) {
                
                 throw new NotFoundHttpException();
             }
 
-            $imageRequest->imagefilename = $imageRequest->arguments['default'];
+            $imageManager->imagefilename = $imageManager->arguments['default'];
         }
-        $class = sprintf('\Imagine\%s\Imagine', $imageRequest->arguments['lib']);
+        $class = sprintf('\Imagine\%s\Imagine', $imageManager->arguments['lib']);
         
-        $imageRequest->imagine = new $class();
+        $imageManager->imagine = new $class();
 
-        $imageRequest->image = $imageRequest->imagine->load($imageRequest->imagine->open($imageRequest->imagefilename));
-        
-        $imageRequest->palette = $imageRequest->image->palette();
-       
+        $imageManager->image = $imageManager->imagine->load($imageManager->imagine->open($imageManager->imagefilename));
+
         $this->module->get('dispatcher')->dispatch(Events::AFTER_CREATE_IMAGE);
         
         
-        return $imageRequest;
+        return $imageManager;
     }
 
-    static public function boot(Request $request, Application $app) {
-
-        $app['monolog']->addDebug('entering dynimage boot');
-
-        if (isset($app['dynimage.module'])) {
-            return;
-        }
-
-        $package = $request->attributes->get('package');
-        $module = $request->attributes->get('module');
-
-        /**/
-        if (isset($app['dynimage']['packages']['packager'])) {
-
-            $packager = ConfigLoader::load($app['dynimage']['packages']['packager'] . '.' . $app['env'] . '.yml', $app['dynimage']['cache_dir'], $app['debug']);
-
-            $packages = $packager->getParameter('packages');
-            if (!isset($packages[$package])) {
-                throw new \InvalidArgumentException(
-                sprintf("The package '%s' does not exist.", $package));
-            }
-
-            if (!isset($packages[$package]['modules'][$module])) {
-                throw new \InvalidArgumentException(
-                sprintf("The module '%s' does not exist.", $module));
-            }
-
-            if (isset($packages[$package]['enabled']) && !$packages[$package]['enabled']) {
-                $app->abort(404);
-            }
-
-            $moduleFilename = $packages[$package]['modules'][$module];
-
-            $moduleLoaded = ModuleLoader::loadFromFile($moduleFilename, $package, $app['dynimage']['cache_dir'], $app['env'], $app['debug']);
-        } else {
-            $moduleLoaded = ModuleLoader::loadFromDir($module, $app['dynimage']['packages']['dir'] . $package, $app['dynimage']['cache_dir'], $app['env'], $app['debug']);
-        }
-        /**/
 
 
-        $app['dynimage.module'] = $moduleLoaded;
-
-        $imageRequest = $moduleLoaded->get('imagerequest');
-        $app['monolog']->addDebug('lib:' . $imageRequest->arguments['lib']);
-
-
-        ///////////////////////
-        $app['monolog']->addDebug('entering dynimage connecting service');
-
-        /** /
-          $ids = $moduleLoaded->getServiceIds();
-
-          foreach ($ids as $id => $value) {
-          if (is_numeric($value)) {
-
-          $service = $moduleLoaded->get($value);
-
-          if ($value != 'service_container' && $value != 'dynimage') {
-
-          $app['monolog']->addDebug(get_class($service) .' connecting');
-          $service->connect($request, $app);
-          }
-          }
-          }
-          /* */
-        /**/
-        $addonbag = $moduleLoaded->get('addonbag');
-        $addonbag->connect($request, $app);
-        /**/
-
-        if (is_null($imageRequest->arguments)) {
-
-            $app->abort(404);
-        }
-
-        if (isset($imageRequest->arguments['enabled']) && !$imageRequest->arguments['enabled']) {
-
-            $app->abort(404);
-        }
-
-
-        if (isset($imageRequest->arguments['image'])) {
-
-            $imageRequest->imagefilename = $imageRequest->arguments['image'];
-        }
-
-        if (!isset($imageRequest->imagefilename)) {
-            $imageRequest->imagefilename = '';
-        }
-
-        ///////////////////////////
-
-
-        $app['monolog']->addDebug('dispatch ' . Events::BEFORE_CREATE_IMAGE);
-        $app['dispatcher']->dispatch(Events::BEFORE_CREATE_IMAGE);
-
-
-
-        $app['monolog']->addDebug('entering dynimage create image');
-        if (!file_exists($imageRequest->imagefilename)) {
-            if (!isset($imageRequest->arguments['default'])) {
-                $app->abort(404, 'The image was not found.');
-            }
-
-            $imageRequest->imagefilename = $imageRequest->arguments['default'];
-        }
-        $class = sprintf('\Imagine\%s\Imagine', $imageRequest->arguments['lib']);
-        $app['monolog']->addDebug('imagefilename : ' . $imageRequest->imagefilename);
-        $imageRequest->imagine = new $class();
-
-        $imageRequest->image = $imageRequest->imagine->load($imageRequest->imagine->open($imageRequest->imagefilename));
-        $app['monolog']->addDebug('dispatch ' . Events::AFTER_CREATE_IMAGE);
-        $app['dispatcher']->dispatch(Events::AFTER_CREATE_IMAGE);
-    }
-
-    static public function terminate(Request $request, Response $response, Application $app) {
-
-        $app['monolog']->addDebug('entering dynimage terminate');
-        //$imageRequest = $app['dynimage.module']->get('imagerequest');
-        $imageRequest = $app['dynimage.image'];
-
-        if (!isset($imageRequest->image)) {
-
-            $app->abort(404);
-        }
-
-        if (isset($imageRequest->arguments['format'])) {
-            $format = $imageRequest->arguments['format'];
-        } else {
-            $format = pathinfo($imageRequest->imagefilename, PATHINFO_EXTENSION);
-        }
-
-        $response->headers->set('Content-Type', 'image/' . $format);
-        $response->setContent($imageRequest->image->get($format));
-
-        $response->setPublic();
-        //$response->setStatusCode(200);
-        if (isset($imageRequest->arguments['time-to-live'])) {
-
-            $response->setTtl($imageRequest->arguments['time-to-live']);
-        }
-
-        return $response;
-    }
 
 }

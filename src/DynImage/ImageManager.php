@@ -4,11 +4,11 @@ namespace DynImage;
 
 
 /**
- * ImageRequest
+ * ImageManager
  *
  * @author pascal.roux
  */
-class ImageRequest {
+class ImageManager {
 
     public $arguments;
     public $imagefilename;

@@ -1,38 +1,35 @@
 <?php
 
-namespace Filter\Colorize;
+namespace DynImage\Filter\Colorize;
 
-use Silex\Application;
 use DynImage\FilterInterface;
-use Symfony\Component\HttpFoundation\Request;
 use DynImage\Events;
+use DynImage\Filter;
 /**
  * Colorize 
  *
  * @author pascal.roux
  */
-class Colorize implements FilterInterface {
+class Colorize extends Filter implements FilterInterface {
 
-    public $arguments;
+    private $event = Events::AFTER_CREATE_IMAGE;
 
     public function __construct($arguments) {
         $this->arguments = $arguments;
     }
 
-    public function connect(Request $request, Application $app) {
+    public function getEvent() {
+        return $this->event;
+    }
+    
+    public function apply() {
 
-        $arguments = $this->arguments;
+        if (!is_null($this->arguments)) {
+            error_log('color:'.$this->arguments['color']);
+            $color = $this->imageManager->image->palette()->color($this->arguments['color']);
 
-        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
-
-            $app['monolog']->addDebug('entering colorize connect');
-
-            if (!is_null($arguments)) {
-                $color = $app['dynimage.module']->get('imagerequest')->image->palette()->color($arguments['color']);
-
-                $app['dynimage.module']->get('imagerequest')->image->effects()->colorize($color);
-            }
-        });
+            $this->imageManager->image->effects()->colorize($color);
+        }
     }
 
 }

@@ -27,7 +27,7 @@ class Extension implements ExtensionInterface {
     }
 
     public function getAlias() {
-        return 'ImageRequest';
+        return 'ImageManager';
     }
 
     public function getXsdValidationBasePath() {

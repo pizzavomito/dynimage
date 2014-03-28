@@ -1,6 +1,6 @@
 <?php
 
-namespace Filter\Reflect;
+namespace DynImage\Filter\Reflect;
 
 use Silex\Application;
 use DynImage\FilterInterface;
@@ -10,14 +10,16 @@ use Imagine\Image\Color;
 use Imagine\Image\Point;
 use Imagine\Image\Fill\Gradient\Vertical;
 use DynImage\Events;
+use DynImage\Filter;
+
 /**
  * Effet Reflection
  *
  * @author pascal.roux
  */
-class Reflect implements FilterInterface {
+class Reflect extends Filter implements FilterInterface {
 
-    public $arguments;
+    private $event = Events::AFTER_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
 
@@ -30,35 +32,35 @@ class Reflect implements FilterInterface {
         $this->arguments = array_replace_recursive($default_arguments, $arguments);
     }
 
-    public function connect(Request $request, Application $app) {
-        $arguments = $this->arguments;
-        $app['dispatcher']->addListener(Events::AFTER_CREATE_IMAGE, function () use ($app, $arguments) {
-            $app['monolog']->addDebug('entering reflect connect');
-
-            $size = $app['dynimage.module']->get('imagerequest')->image->getSize();
-            $canvas = new Box($size->getWidth(), $size->getHeight() * 2);
-            
-            $palette = new \Imagine\Image\Palette\RGB();
-            $white = $palette->color($arguments['color']);
-           
-            $fill = new Vertical(
-                    $size->getHeight(), $white->darken(127), $white
-            );
-
-            $tr = $app['dynimage.module']->get('imagerequest')->imagine->create($size)
-                    ->fill($fill);
-
-            $reflection = $app['dynimage.module']->get('imagerequest')->image->copy()
-                    ->flipVertically()
-                    ->applyMask($tr)
-            ;
-            $palette = new \Imagine\Image\Palette\RGB();
-            $color = $palette->color($arguments['color']);
-            
-            $app['dynimage.module']->get('imagerequest')->image = $app['dynimage.module']->get('imagerequest')->imagine->create($canvas, $color)
-                    ->paste($app['dynimage.module']->get('imagerequest')->image, new Point(0, 0))
-                    ->paste($reflection, new Point(0, $size->getHeight()));
-        });
+    public function getEvent() {
+        return $this->event;
     }
 
+    public function apply() {
+        $size = $this->imageManager->image->getSize();
+        $canvas = new Box($size->getWidth(), $size->getHeight() * 2);
+
+        $palette = new \Imagine\Image\Palette\RGB();
+        $white = $palette->color($this->arguments['color']);
+
+        $fill = new Vertical(
+                $size->getHeight(), $white->darken(127), $white
+        );
+
+        $tr = $this->imageManager->imagine->create($size)
+                ->fill($fill);
+
+        $reflection = $this->imageManager->image->copy()
+                ->flipVertically()
+                ->applyMask($tr)
+        ;
+        $palette = new \Imagine\Image\Palette\RGB();
+        $color = $palette->color($this->arguments['color']);
+
+        $this->imageManager->image = $this->imageManager->imagine->create($canvas, $color)
+                ->paste($this->imageManager->image, new Point(0, 0))
+                ->paste($reflection, new Point(0, $size->getHeight()));
+    }
+
+   
 }

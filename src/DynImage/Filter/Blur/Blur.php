@@ -1,6 +1,6 @@
 <?php
 
-namespace Filter\Blur;
+namespace DynImage\Filter\Blur;
 
 use DynImage\FilterInterface;
 use DynImage\Events;
@@ -29,11 +29,11 @@ class Blur extends Filter implements FilterInterface {
         return $this->event;
     }
 
-    public function listener() {
+    public function apply() {
 
         if (!is_null($this->arguments)) {
 
-            $this->imagerequest->image->effects()->blur($this->arguments['sigma']);
+            $this->imageManager->image->effects()->blur($this->arguments['sigma']);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Filter\GrayScale;
+namespace DynImage\Filter\GrayScale;
 
 use DynImage\FilterInterface;
 use DynImage\Filter;
@@ -19,10 +19,10 @@ class GrayScale extends Filter implements FilterInterface {
         return $this->event;
     }
     
-    public function listener() {
+    public function apply() {
 
 
-        $this->imagerequest->image->effects()->grayscale();
+        $this->imageManager->image->effects()->grayscale();
     }
 
    

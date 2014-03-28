@@ -1,0 +1,11 @@
+parameters:
+    polaroid_class: DynImage\Filter\Polaroid\Polaroid
+    
+services:
+    
+    polaroid:
+        class: %polaroid_class%
+        arguments:
+            - {angle: 0}
+        tags:
+            - {name: dynimage.filter}

@@ -2,11 +2,11 @@
 
 namespace DynImage\Filter\Thumb;
 
-
 use DynImage\FilterInterface;
 use Imagine\Image\Box;
 use DynImage\Filter;
 use DynImage\Events;
+
 /**
  * Creation de miniature
  *
@@ -14,19 +14,17 @@ use DynImage\Events;
  */
 class Thumb extends Filter implements FilterInterface {
 
-    
-  
     private $event = Events::AFTER_CREATE_IMAGE;
-    
+
     public function getEvent() {
         return $this->event;
     }
-    
-    public function listener() {
+
+    public function apply() {
         if (!is_null($this->arguments)) {
 
-             $this->imagerequest->image = $this->imagerequest->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
+            $this->imageManager->image = $this->imageManager->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
         }
     }
-    
+
 }
