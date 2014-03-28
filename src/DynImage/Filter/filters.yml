@@ -1,0 +1,4 @@
+imports:
+    - { resource: Filter/Thumb/thumb.yml }
+    - { resource: Filter/GrayScale/grayscale.yml }
+    - { resource: Filter/Blur/blur.yml }

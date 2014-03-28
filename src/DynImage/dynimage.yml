@@ -1,5 +1,16 @@
+imports:
+    - { resource: Filter/filters.yml }
+
+parameters:
+  
+  
 services:
+
+  dispatcher:
+    class: Symfony\Component\EventDispatcher\EventDispatcher
+    tags:
+       - {name: dynimage.dispatcher}
   imagerequest:
     class: DynImage\ImageRequest
     tags:
-       - {name: imagerequest}
+       - {name: dynimage.imagerequest}

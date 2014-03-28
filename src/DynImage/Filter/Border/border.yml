@@ -1,0 +1,16 @@
+parameters:
+   
+    
+services:
+    
+    borderblack:
+        class: Filter\Border\Border
+        tags:
+            - {name: filter}
+            
+    borderwhite:
+        class: Filter\Border\Border
+        arguments:
+            - {color: '#ffffff'}
+        tags:
+            - {name: filter}

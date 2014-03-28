@@ -1,0 +1,11 @@
+parameters:
+    thumb_class : DynImage\Filter\Thumb\Thumb
+    
+services:
+    
+    thumb100x100:
+        class: %thumb_class%
+        arguments:
+            - {height: 100, width: 100}
+        tags:
+            - {name: filter}

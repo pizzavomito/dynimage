@@ -1,0 +1,9 @@
+parameters:
+   
+    
+services:
+    
+    grayscale:
+        class: Filter\GrayScale\GrayScale
+        tags:
+            - {name: filter}

@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "silex/silex": "~1.1",
+
         "imagine/imagine": "0.6.*@dev",
         "symfony/config": "2.3.*@dev",
         "symfony/dependency-injection": "2.2.*@dev",
@@ -19,8 +19,7 @@
     },
     "autoload": {
         "psr-0": { 
-            "DynImage": "src/",
-            "Plugin": "addon/", 
-            "Filter": "addon/" }
+            "DynImage": "src/"
+                }
     }
 }

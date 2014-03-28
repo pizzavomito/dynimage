@@ -2,7 +2,7 @@
 
 namespace DynImage;
 
-class Fire {
+class AddonBag {
     
     private $addon;
     
@@ -11,11 +11,11 @@ class Fire {
         $this->addon = array();
     }
     
-    public function connect($request,$app) {
+    public function connect($module,$dispatcher) {
         
         foreach ($this->addon as $addon) {
-            $app['monolog']->addDebug(get_class($addon) .' connecting');
-            $addon->connect($request,$app);
+            //$app['monolog']->addDebug(get_class($addon) .' connecting');
+            //$addon->connect($module,$dispatcher);
         }
     }
     

@@ -2,7 +2,7 @@
 
 namespace DynImage;
 
-use Silex\Application;
+
 use DynImage\Extension;
 use DynImage\CompilerPass;
 use Symfony\Component\Config\ConfigCache;
@@ -13,32 +13,16 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 /**
- *  Charge un container et dump dans le cache
+ *  Charge un module et dump dans le cache
  * 
  */
 class ModuleLoader {
 
    
-    private $cache_dir;
-    private $moduleFilename;
-    private $module;
-    private $package;
-    private $packagesDir;
-    private $env;
-    private $debug;
-
-    public function __construct($cache_dir,$env,$debug) {
-
-        $this->cache_dir = $cache_dir;
-        $this->env = $env;
-        $this->debug = $debug;
-        
-    }
-
     
     static private function load($cachedfilename,$moduleFilename,$className,$packagesDir,$debug) {
     
-        //$cachedFilename = pathinfo($this->cachedfilename, PATHINFO_FILENAME);
+       
         $config = new ConfigCache($cachedfilename . '.php', $debug);
  
         if (!$config->isFresh()) {
@@ -66,8 +50,7 @@ class ModuleLoader {
 
             $config->write($dumper->dump(array('class' => $className)), $container->getResources());
         }
-        //$filename = pathinfo($cachedfilename, PATHINFO_FILENAME);
-        //require $this->cache_dir . '/' . $filename . '.php';
+    
         require $cachedfilename.'.php';
         return new $className;
     }
@@ -75,7 +58,6 @@ class ModuleLoader {
     static public function loadFromFile($moduleFilename,$package,$cache_dir,$env,$debug) {
 
         $moduleFilename = $moduleFilename.'.'.$env.'.yml';
-        //$module = basename($moduleFilename);
         $module = pathinfo($moduleFilename, PATHINFO_FILENAME); 
         $packagesDir = dirname(dirname($moduleFilename)).'/'.$package;
         $cachedfilename = $cache_dir.'/'.$package.$module;

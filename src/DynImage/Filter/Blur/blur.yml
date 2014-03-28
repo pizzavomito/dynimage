@@ -1,0 +1,9 @@
+parameters:
+   
+    
+services:
+    
+    blur:
+        class: Filter\Blur\Blur
+        tags:
+            - {name: filter}
