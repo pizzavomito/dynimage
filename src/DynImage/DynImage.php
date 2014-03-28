@@ -17,24 +17,25 @@ class DynImage {
     private $cache_dir;
     private $env;
     private $debug;
-    
+    private $packager;
     private $module;
     
-    public function __construct($cache_dir,$env, $debug) {
+    public function __construct($cache_dir, $packager, $env, $debug) {
         $this->cache_dir = $cache_dir;
         $this->env = $env;
         $this->debug = $debug;
+        $this->packager = $packager;
     }
     
     public function getModule() {
         return $this->module;
     }
     
-    public function createImage($package, $moduleName, $packager, $imagefilename = null) {
-        if (is_dir($packager)) {
-            $this->module = ModuleLoader::loadFromDir($moduleName, $packager . $package, $this->cache_dir, $this->env, $this->debug);
+    public function createImage($package, $moduleName, $imagefilename = null) {
+        if (is_dir($$this->packager)) {
+            $this->module = ModuleLoader::loadFromDir($moduleName, $this->packager . $package, $this->cache_dir, $this->env, $this->debug);
         } else {
-            $packagerLoaded = ConfigLoader::load($packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
+            $packagerLoaded = ConfigLoader::load($$this->packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
 
             $packages = $packagerLoaded->getParameter('packages');
             if (!isset($packages[$package])) {
