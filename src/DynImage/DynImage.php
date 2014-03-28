@@ -2,9 +2,6 @@
 
 namespace DynImage;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -32,10 +29,11 @@ class DynImage {
     }
     
     public function createImage($package, $moduleName, $imagefilename = null) {
-        if (is_dir($$this->packager)) {
+  
+        if (is_dir($this->packager)) {
             $this->module = ModuleLoader::loadFromDir($moduleName, $this->packager . $package, $this->cache_dir, $this->env, $this->debug);
         } else {
-            $packagerLoaded = ConfigLoader::load($$this->packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
+            $packagerLoaded = ConfigLoader::load($this->packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
 
             $packages = $packagerLoaded->getParameter('packages');
             if (!isset($packages[$package])) {
