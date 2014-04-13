@@ -87,13 +87,14 @@ class DynImage {
         $this->module->get('dispatcher')->dispatch(Events::BEFORE_CREATE_IMAGE);
         
         
-        if (!file_exists($imageManager->imagefilename)) {
+         if (!file_exists($imageManager->imagefilename) || !is_file($imageManager->imagefilename)) {
             if (!isset($imageManager->arguments['default'])) {
                
                 throw new NotFoundHttpException();
             }
-
+	
             $imageManager->imagefilename = $imageManager->arguments['default'];
+			
         }
         $class = sprintf('\Imagine\%s\Imagine', $imageManager->arguments['lib']);
         
