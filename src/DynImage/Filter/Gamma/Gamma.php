@@ -13,7 +13,7 @@ use DynImage\Filter;
  */
 class Gamma extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::LUNCH_APPLY_FILTER;
 
     public function __construct($arguments = null) {
         $default_arguments = array(

@@ -8,4 +8,6 @@ services:
         arguments:
             - {height: 100, width: 100}
         tags:
-            - {name: filter}
+            - {name: dynimage.filter}
+            
+    

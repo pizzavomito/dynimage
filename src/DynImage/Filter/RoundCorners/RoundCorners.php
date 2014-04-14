@@ -13,7 +13,7 @@ use DynImage\Filter;
  */
 class RoundCorners extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::DINNER_APPLY_FILTER;
 
     public function __construct($arguments = null) {
 
@@ -33,7 +33,7 @@ class RoundCorners extends Filter implements FilterInterface {
 
     public function apply() {
 
-        if ($this->imageManager->arguments['lib'] == 'Imagick') {
+        if ($this->parameters['lib'] == 'Imagick') {
             $this->imageManager->image->getImagick()->roundCorners($this->arguments['x'], $this->arguments['y']);
         }
     }

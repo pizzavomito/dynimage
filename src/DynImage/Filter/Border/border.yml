@@ -16,3 +16,10 @@ services:
             - {color: '#ffffff'}
         tags:
             - {name: dynimage.filter}
+            
+    border_orange:
+        class: %border_class%
+        arguments:
+            - {color: '#ff9900'}
+        tags:
+            - {name: dynimage.filter}

@@ -37,7 +37,7 @@ class ModuleLoader {
 
             $loader->load(basename($moduleFilename));
             /**/
-            //permet d'ajouter imageRequest en tant que service dans le module
+            //permet d'ajouter imageManager en tant que service dans le module
             $extension = new Extension();
             $container->registerExtension($extension);
             $container->loadFromExtension($extension->getAlias());

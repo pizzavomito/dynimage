@@ -19,7 +19,7 @@ use DynImage\Filter;
  */
 class Reflect extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::FINISH_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
 

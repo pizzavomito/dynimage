@@ -2,15 +2,22 @@ imports:
     - { resource: Filter/filters.yml }
 
 parameters:
+    lib_imagick: Imagick
+    lib_gd : Gd
+    lib_gmagick : Gmagick
+    lib : %lib_gd%
+    filter_manager_class : DynImage\FilterManager
   
-  
+    
 services:
+  
 
   dispatcher:
-    class: Symfony\Component\EventDispatcher\EventDispatcher
-    tags:
-       - {name: dynimage.dispatcher}
+      class: Symfony\Component\EventDispatcher\EventDispatcher
+      tags:
+          - {name: dynimage.dispatcher}
   image_manager:
-    class: DynImage\ImageManager
-    tags:
-       - {name: dynimage.image_manager}
+      class: DynImage\ImageManager
+      tags:
+          - {name: dynimage.image_manager}
+ 

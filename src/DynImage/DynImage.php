@@ -15,7 +15,10 @@ class DynImage {
     private $env;
     private $debug;
     private $packager;
-    private $module;
+    public $module;
+    
+    public $imageManager;
+    
     
     public function __construct($cache_dir, $packager, $env, $debug) {
         $this->cache_dir = $cache_dir;
@@ -28,12 +31,11 @@ class DynImage {
         return $this->module;
     }
     
-    public function createImage($package, $moduleName, $imagefilename = null) {
-  
-        if (is_dir($this->packager)) {
+    public function load($package, $moduleName) {
+         if (is_dir($this->packager)) {
             $this->module = ModuleLoader::loadFromDir($moduleName, $this->packager . $package, $this->cache_dir, $this->env, $this->debug);
         } else {
-            $packagerLoaded = ConfigLoader::load($this->packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
+            $packagerLoaded = PackagerLoader::load($this->packager . '.' . $this->env . '.yml', $this->cache_dir, $this->debug);
 
             $packages = $packagerLoaded->getParameter('packages');
             if (!isset($packages[$package])) {
@@ -57,54 +59,46 @@ class DynImage {
             $this->module = ModuleLoader::loadFromFile($moduleFilename, $package, $this->cache_dir, $this->env, $this->debug);
         }
 
- 
-     
-        $imageManager = $this->module->get('image_manager');
-     
-        if (is_null($imageManager->arguments)) {
-            throw new \InvalidArgumentException();
-        }
 
-        if (isset($imageManager->arguments['enabled']) && !$imageManager->arguments['enabled']) {
+        $this->imageManager = $this->module->get('image_manager');
+       
+        
+        return $this->module;
+    }
+    
+    public function createImage($imagefilename) {
+  
+        $this->imageManager->imagefilename = $imagefilename;
+     
+ 
+        if ($this->module->hasParameter('enabled') && !$this->module->getParameter('enabled')) {
             throw new NotFoundHttpException();
         }
-
-        if (!is_null($imagefilename)) {
-            $imageManager->imagefilename = $imageManager->arguments['images_dir'].$imagefilename;
-        }
-
-        if (isset($imageManager->arguments['image'])) {
-
-            $imageManager->imagefilename = $imageManager->arguments['image'];
-        }
         
-
-        if (!isset($imageManager->imagefilename)) {
-            $imageManager->imagefilename = '';
-        }
         
         $this->module->get('filter_manager');
         $this->module->get('dispatcher')->dispatch(Events::BEFORE_CREATE_IMAGE);
+       
+        $class = sprintf('\Imagine\%s\Imagine', $this->module->getParameter('lib'));
         
-        
-        if (!file_exists($imageManager->imagefilename)) {
-            if (!isset($imageManager->arguments['default'])) {
-               
-                throw new NotFoundHttpException();
-            }
+        $this->imageManager->imagine = new $class();
 
-            $imageManager->imagefilename = $imageManager->arguments['default'];
-        }
-        $class = sprintf('\Imagine\%s\Imagine', $imageManager->arguments['lib']);
-        
-        $imageManager->imagine = new $class();
-
-        $imageManager->image = $imageManager->imagine->load($imageManager->imagine->open($imageManager->imagefilename));
+        $this->imageManager->image = $this->imageManager->imagine->load($this->imageManager->imagine->open($this->imageManager->imagefilename));
 
         $this->module->get('dispatcher')->dispatch(Events::AFTER_CREATE_IMAGE);
         
+        $this->module->get('dispatcher')->dispatch(Events::BREAKFAST_APPLY_FILTER);
         
-        return $imageManager;
+        $this->module->get('dispatcher')->dispatch(Events::LUNCH_APPLY_FILTER);
+        
+        $this->module->get('dispatcher')->dispatch(Events::DINNER_APPLY_FILTER);
+        
+         $this->module->get('dispatcher')->dispatch(Events::FINISH_CREATE_IMAGE);
+        
+        
+        
+        return $this->imageManager->image;
+        
     }
 
 

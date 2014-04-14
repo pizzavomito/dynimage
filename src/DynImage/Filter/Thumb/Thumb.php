@@ -14,7 +14,7 @@ use DynImage\Events;
  */
 class Thumb extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::AFTER_CREATE_IMAGE;
 
     public function getEvent() {
         return $this->event;
@@ -22,7 +22,8 @@ class Thumb extends Filter implements FilterInterface {
 
     public function apply() {
         if (!is_null($this->arguments)) {
-
+            
+            
             $this->imageManager->image = $this->imageManager->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
         }
     }

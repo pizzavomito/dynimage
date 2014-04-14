@@ -13,7 +13,7 @@ use DynImage\Filter;
  */
 class Polaroid extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::FINISH_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
         $default_arguments = array(
@@ -30,9 +30,11 @@ class Polaroid extends Filter implements FilterInterface {
         return $this->event;
     }
 
+    
+    
     public function apply() {
 
-        if ($this->imageManager->arguments['lib'] == 'Imagick') {
+        if ($this->parameters['lib'] == 'Imagick') {
 
             $im = new \Imagick();
             //$im = $this->imageManager->image->getImagick();

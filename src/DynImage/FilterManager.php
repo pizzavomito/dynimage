@@ -11,8 +11,8 @@ class FilterManager {
         $this->filters = array();
     }
     
-       
     public function add($filter) {
+       
         array_push($this->filters,$filter);
     }
 

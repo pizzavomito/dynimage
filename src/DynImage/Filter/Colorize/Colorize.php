@@ -12,7 +12,7 @@ use DynImage\Filter;
  */
 class Colorize extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::BREAKFAST_APPLY_FILTER;
 
     public function __construct($arguments) {
         $this->arguments = $arguments;

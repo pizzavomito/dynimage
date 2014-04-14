@@ -13,7 +13,7 @@ use DynImage\Filter;
  */
 class Blur extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::AFTER_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
         $default_arguments = array(

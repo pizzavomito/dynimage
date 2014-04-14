@@ -15,7 +15,7 @@ use DynImage\Filter;
  */
 class Shadow extends Filter implements FilterInterface {
 
-    private $event = Events::AFTER_CREATE_IMAGE;
+    protected $event = Events::DINNER_APPLY_FILTER;
 
     public function __construct($arguments = null) {
         $default_arguments = array(
@@ -37,7 +37,7 @@ class Shadow extends Filter implements FilterInterface {
 
     public function apply() {
 
-        if ($this->imageManager->arguments['lib'] == 'Imagick') {
+        if ($this->parameters['lib'] == 'Imagick') {
             $palette = new \Imagine\Image\Palette\RGB();
             $color = $palette->color($this->arguments['color']);
 
