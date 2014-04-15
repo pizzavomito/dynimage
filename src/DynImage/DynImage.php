@@ -76,7 +76,7 @@ class DynImage {
         }
         
         
-        $this->module->get('filter_manager');
+        $this->module->get('filters_chained');
         $this->module->get('dispatcher')->dispatch(Events::BEFORE_CREATE_IMAGE);
        
         $class = sprintf('\Imagine\%s\Imagine', $this->module->getParameter('lib'));
@@ -93,7 +93,7 @@ class DynImage {
         
         $this->module->get('dispatcher')->dispatch(Events::DINNER_APPLY_FILTER);
         
-         $this->module->get('dispatcher')->dispatch(Events::FINISH_CREATE_IMAGE);
+        $this->module->get('dispatcher')->dispatch(Events::FINISH_CREATE_IMAGE);
         
         
         

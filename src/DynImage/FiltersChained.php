@@ -2,7 +2,7 @@
 
 namespace DynImage;
 
-class FilterManager {
+class FiltersChained {
     
     private $filters;
     

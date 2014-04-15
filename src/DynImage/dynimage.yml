@@ -1,4 +1,5 @@
 imports:
+    #- { resource: constants.xml }
     - { resource: Filter/filters.yml }
 
 parameters:
@@ -6,7 +7,7 @@ parameters:
     lib_gd : Gd
     lib_gmagick : Gmagick
     lib : %lib_gd%
-    filter_manager_class : DynImage\FilterManager
+    filters_chained_class : DynImage\FiltersChained
   
     
 services:

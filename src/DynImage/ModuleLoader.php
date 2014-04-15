@@ -2,7 +2,6 @@
 
 namespace DynImage;
 
-
 use DynImage\Extension;
 use DynImage\CompilerPass;
 use Symfony\Component\Config\ConfigCache;
@@ -11,6 +10,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Loader\DelegatingLoader;
 
 /**
  *  Charge un module et dump dans le cache
@@ -18,13 +19,11 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
  */
 class ModuleLoader {
 
-   
-    
-    static private function load($cachedfilename,$moduleFilename,$className,$packagesDir,$debug) {
-    
-       
+    static private function load($cachedfilename, $moduleFilename, $className, $packagesDir, $debug) {
+
+
         $config = new ConfigCache($cachedfilename . '.php', $debug);
- 
+
         if (!$config->isFresh()) {
             $container = new ContainerBuilder();
 
@@ -32,7 +31,12 @@ class ModuleLoader {
                 throw new \InvalidArgumentException(
                 sprintf("The module file '%s' does not exist.", $moduleFilename));
             }
+/** /
+            $loaderResolver = new LoaderResolver(array(new YamlUserLoader($locator)));
+            $delegatingLoader = new DelegatingLoader($loaderResolver);
 
+            $delegatingLoader->load(__DIR__ . '/users.yml');
+/**/
             $loader = new YamlFileLoader($container, new FileLocator($packagesDir));
 
             $loader->load(basename($moduleFilename));
@@ -50,27 +54,27 @@ class ModuleLoader {
 
             $config->write($dumper->dump(array('class' => $className)), $container->getResources());
         }
-    
-        require $cachedfilename.'.php';
+
+        require $cachedfilename . '.php';
         return new $className;
     }
-    
-    static public function loadFromFile($moduleFilename,$package,$cache_dir,$env,$debug) {
 
-        $moduleFilename = $moduleFilename.'.'.$env.'.yml';
-        $module = pathinfo($moduleFilename, PATHINFO_FILENAME); 
-        $packagesDir = dirname(dirname($moduleFilename)).'/'.$package;
-        $cachedfilename = $cache_dir.'/'.$package.$module;
-        $className = str_replace('.','',$module);
-        return self::load($cachedfilename,$moduleFilename,$className,$packagesDir,$debug);
+    static public function loadFromFile($moduleFilename, $package, $cache_dir, $env, $debug) {
+
+        $moduleFilename = $moduleFilename . '.' . $env . '.yml';
+        $module = pathinfo($moduleFilename, PATHINFO_FILENAME);
+        $packagesDir = dirname(dirname($moduleFilename)) . '/' . $package;
+        $cachedfilename = $cache_dir . '/' . $package . $module;
+        $className = str_replace('.', '', $module);
+        return self::load($cachedfilename, $moduleFilename, $className, $packagesDir, $debug);
     }
-    
-    public function loadFromDir($module,$packagesDir,$cache_dir,$env,$debug) {
-        
-        $moduleFilename = $packagesDir.'/'.$module.'.'.$env.'.yml';
-        $cachedfilename = $cache_dir.'/'.basename($packagesDir).$module;
-        $className = str_replace('.','',$module);
-        return self::load($cachedfilename,$moduleFilename,$className,$packagesDir,$debug);
+
+    public function loadFromDir($module, $packagesDir, $cache_dir, $env, $debug) {
+
+        $moduleFilename = $packagesDir . '/' . $module . '.' . $env . '.yml';
+        $cachedfilename = $cache_dir . '/' . basename($packagesDir) . $module;
+        $className = str_replace('.', '', $module);
+        return self::load($cachedfilename, $moduleFilename, $className, $packagesDir, $debug);
     }
 
 }
