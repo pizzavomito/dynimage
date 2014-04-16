@@ -51,7 +51,7 @@ class Shadow extends Filter implements FilterInterface {
           
             $im->compositeImage($image, \Imagick::COMPOSITE_OVER, 0, 0);
             
-            $this->imageManager->image = new \Imagine\Imagick\Image($im, $this->imageManager->image->palette());
+            $this->imageManager->image = new \Imagine\Imagick\Image($im, $this->imageManager->image->palette(),$this->imageManager->imagine->getMetadataReader()->readData($im));
         }
     }
 
