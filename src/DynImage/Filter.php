@@ -8,9 +8,14 @@ class Filter {
     protected $imageManager;
     
     protected $parameters;
+    
+    
 
     public function __construct($arguments=null) {
-        $this->arguments = $arguments;
+        if (is_null($arguments)) {
+            $arguments = array();
+        }
+        $this->arguments = array_replace_recursive($this->default_arguments, $arguments);
         
     }
     
@@ -27,8 +32,25 @@ class Filter {
         
         $this->imageManager = $imageManager;
         
-        $dispatcher->addListener($this->getEvent(), array($this, 'apply'));
+        foreach($this->default_arguments as $key => $value) {
+            
+            if (isset($this->parameters[$this->PREFIX_PARAMETER.$key])) {
+                $this->arguments[$key] = $this->parameters[$this->PREFIX_PARAMETER.$key];
+            }
+        }
+        
+        $dispatcher->addListener($this->event, array($this, 'apply'));
     }
+    
+    public function getArguments() {
+        return $this->arguments;
+    }
+    
+    
+    public function getPrefixParameter() {
+        return self::PREFIX_PARAMETER;
+    }
+
    
 
 }

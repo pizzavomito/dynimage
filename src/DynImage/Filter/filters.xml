@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    
+    <imports>
+        <import resource="Filter/Thumb/thumb.xml"/>
+        <import resource="Filter/Colorize/colorize.xml"/>
+        <import resource="Filter/Polaroid/polaroid.xml"/>
+        <import resource="Filter/Watermark/watermark.xml"/>
+        
+    </imports>
+    
+</container>

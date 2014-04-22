@@ -1,5 +1,5 @@
 imports:
-    #- { resource: constants.xml }
+    - { resource: parameters.xml }
     - { resource: Filter/filters.yml }
 
 parameters:
@@ -7,7 +7,7 @@ parameters:
     lib_gd : Gd
     lib_gmagick : Gmagick
     lib : %lib_gd%
-    filters_chained_class : DynImage\FiltersChained
+    transformer_class : DynImage\Transformer
   
     
 services:

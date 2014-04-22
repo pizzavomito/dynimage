@@ -2,7 +2,7 @@
 
 namespace DynImage;
 
-class FiltersChained {
+class Transformer {
     
     private $filters;
     
@@ -16,5 +16,8 @@ class FiltersChained {
         array_push($this->filters,$filter);
     }
 
+    public function getFilters() {
+        return $this->filters;
+    }
 }
 

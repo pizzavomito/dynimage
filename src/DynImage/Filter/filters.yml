@@ -9,3 +9,4 @@ imports:
     - { resource: Filter/Reflect/reflect.yml }
     - { resource: Filter/RoundCorners/roundcorners.yml }
     - { resource: Filter/Shadow/shadow.yml }
+    - { resource: Filter/Shadow/watermark.yml }

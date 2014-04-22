@@ -5,6 +5,7 @@ namespace DynImage\Filter\Colorize;
 use DynImage\FilterInterface;
 use DynImage\Events;
 use DynImage\Filter;
+
 /**
  * Colorize 
  *
@@ -12,24 +13,19 @@ use DynImage\Filter;
  */
 class Colorize extends Filter implements FilterInterface {
 
+    protected $PREFIX_PARAMETER = 'colorize.';
     protected $event = Events::BREAKFAST_APPLY_FILTER;
+    protected $default_arguments = array(
+        'color' => '#ffffff'
+    );
 
-    public function __construct($arguments) {
-        $this->arguments = $arguments;
-    }
-
-    public function getEvent() {
-        return $this->event;
-    }
-    
     public function apply() {
 
-        if (!is_null($this->arguments)) {
-            error_log('color:'.$this->arguments['color']);
-            $color = $this->imageManager->image->palette()->color($this->arguments['color']);
 
-            $this->imageManager->image->effects()->colorize($color);
-        }
+
+        $color = $this->imageManager->image->palette()->color($this->arguments['color']);
+
+        $this->imageManager->image->effects()->colorize($color);
     }
 
 }

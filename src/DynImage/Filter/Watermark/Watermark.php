@@ -13,29 +13,23 @@ use DynImage\Events;
  */
 class Watermark extends Filter implements FilterInterface {
 
+    protected $PREFIX_PARAMETER ='watermark.';
+    
     protected $event = Events::AFTER_CREATE_IMAGE;
 
-    public function __construct($arguments = null) {
-        $default_arguments = array(
+    protected $default_arguments = array(
             'text' => 'Copyright',
-            'font' => 'Bookman-Demi',
-            'font_size' => 20,
+            'font' => 'DejaVu-Sans-Book',
+            'font_size' => 15,
             'font_color' => '#999999',
             'color' => '#333333',
             'position' => 'SOUTHEAST'
         );
-        if (is_null($arguments)) {
-            $arguments = array();
-        }
-        $this->arguments = array_replace_recursive($default_arguments, $arguments);
-    }
 
-    public function getEvent() {
-        return $this->event;
-    }
-
+   
     public function apply() {
         if ($this->parameters['lib'] == 'Imagick') {
+           
             $image = $this->imageManager->image->getImagick();
 
 
