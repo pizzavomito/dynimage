@@ -13,7 +13,7 @@ use DynImage\Events;
  */
 class Watermark extends Filter implements FilterInterface {
 
-    protected $PREFIX_PARAMETER ='watermark.';
+    protected $prefix_parameter ='watermark.';
     
     protected $event = Events::AFTER_CREATE_IMAGE;
 

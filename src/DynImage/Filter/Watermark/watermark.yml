@@ -1,6 +1,0 @@
-parameters:
-    watermark_class : DynImage\Filter\Watermark\Watermark
-   
-
-            
-    

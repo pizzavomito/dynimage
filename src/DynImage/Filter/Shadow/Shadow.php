@@ -15,7 +15,7 @@ use DynImage\Filter;
  */
 class Shadow extends Filter implements FilterInterface {
 
-    protected $event = Events::DINNER_APPLY_FILTER;
+    protected $event = Events::LATE_APPLY_FILTER;
 
     public function __construct($arguments = null) {
         $default_arguments = array(

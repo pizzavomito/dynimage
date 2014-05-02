@@ -2,8 +2,9 @@
 
 namespace DynImage;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use DynImage\Transformer;
 /**
  * 
  *
@@ -11,30 +12,54 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DynImage {
 
-    private $cache_dir;
-    private $debug;
-    public $module;
-    public $imageManager;
+   
 
-    public function __construct($cache_dir, $debug) {
-        $this->cache_dir = $cache_dir;
-        $this->debug = $debug;
+
+    static public function createImage(Transformer $transformer, $imageContent, $imagefilename, $lib='Gd', $parameters=array()) {
+
+        $imageManager = new ImageManager();
+        $imageManager->imagefilename = $imagefilename;
+        
+        $dispatcher = new EventDispatcher();
+        
+        $filters = $transformer->getFilters();
+        
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+              
+               $filter->connect($imageManager,$dispatcher,$parameters);
+            }
+        }
+       
+        $dispatcher->dispatch(Events::BEFORE_CREATE_IMAGE);
+
+        $class = sprintf('\Imagine\%s\Imagine', $lib);
+
+        $imageManager->imagine = new $class();
+
+        $imageManager->image = $imageManager->imagine->load($imageContent);
+
+        $dispatcher->dispatch(Events::AFTER_CREATE_IMAGE);
+
+        $dispatcher->dispatch(Events::EARLY_APPLY_FILTER);
+
+        $dispatcher->dispatch(Events::LATE_APPLY_FILTER);
+
+        $dispatcher->dispatch(Events::FINISH_CREATE_IMAGE);
+
+
+
+        return $imageManager;
     }
+    
+     static public function getImage(Transformer $transformer, $imageContent, $imagefilename, $lib='Gd',$parameters=array()) {
+         $imageManager = self::createImage($transformer, $imageContent, $imagefilename, $lib, $parameters);
+         
+         return $imageManager->image;
+     }
+    
 
-    public function getModule() {
-        return $this->module;
-    }
-
-    public function load($moduleFilename) {
-
-        $this->module = ModuleLoader::load($moduleFilename, $this->cache_dir, $this->debug);
-
-        $this->imageManager = $this->module->get('image_manager');
-
-
-        return $this->module;
-    }
-
+    /** /
     public function createImage($string, $imagefilename) {
 
         $this->imageManager->imagefilename = $imagefilename;
@@ -56,11 +81,9 @@ class DynImage {
 
         $this->module->get('dispatcher')->dispatch(Events::AFTER_CREATE_IMAGE);
 
-        $this->module->get('dispatcher')->dispatch(Events::BREAKFAST_APPLY_FILTER);
+        $this->module->get('dispatcher')->dispatch(Events::EARLY_APPLY_FILTER);
 
-        $this->module->get('dispatcher')->dispatch(Events::LUNCH_APPLY_FILTER);
-
-        $this->module->get('dispatcher')->dispatch(Events::DINNER_APPLY_FILTER);
+        $this->module->get('dispatcher')->dispatch(Events::LATE_APPLY_FILTER);
 
         $this->module->get('dispatcher')->dispatch(Events::FINISH_CREATE_IMAGE);
 
@@ -68,5 +91,7 @@ class DynImage {
 
         return $this->imageManager->image;
     }
+     /**/
+     
 
 }

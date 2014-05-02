@@ -1,9 +1,0 @@
-parameters:
-    roundcorners_class: DynImage\Filter\RoundCorners\RoundCorners
-    
-services:
-    
-    roundcorners:
-        class: %roundcorners_class%
-        tags:
-            - {name: dynimage.filter}

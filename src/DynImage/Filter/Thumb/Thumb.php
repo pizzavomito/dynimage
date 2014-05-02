@@ -14,23 +14,15 @@ use DynImage\Events;
  */
 class Thumb extends Filter implements FilterInterface {
 
-    protected $PREFIX_PARAMETER = 'thumb.';
-    
+    protected $prefix_parameter = 'thumb.';
     protected $event = Events::AFTER_CREATE_IMAGE;
-
     protected $default_arguments = array(
-            'width' => 100,
-            'height' => 100
-        );
-    
-    
-   
+        'width' => 100,
+        'height' => 100
+    );
 
     public function apply() {
-        
- 
         $this->imageManager->image = $this->imageManager->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
-        
     }
-    
+
 }

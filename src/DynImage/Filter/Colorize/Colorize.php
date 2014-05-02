@@ -13,14 +13,13 @@ use DynImage\Filter;
  */
 class Colorize extends Filter implements FilterInterface {
 
-    protected $PREFIX_PARAMETER = 'colorize.';
-    protected $event = Events::BREAKFAST_APPLY_FILTER;
+    protected $prefix_parameter = 'colorize.';
+    protected $event = Events::EARLY_APPLY_FILTER;
     protected $default_arguments = array(
         'color' => '#ffffff'
     );
 
     public function apply() {
-
 
 
         $color = $this->imageManager->image->palette()->color($this->arguments['color']);

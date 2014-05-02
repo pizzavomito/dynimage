@@ -13,28 +13,16 @@ use DynImage\Filter;
  */
 class Gamma extends Filter implements FilterInterface {
 
-    protected $event = Events::LUNCH_APPLY_FILTER;
-
-    public function __construct($arguments = null) {
-        $default_arguments = array(
-            'correction' => 1.3
-        );
-        if (is_null($arguments)) {
-            $arguments = array();
-        }
-        $this->arguments = array_replace_recursive($default_arguments, $arguments);
-    }
-
-    public function getEvent() {
-        return $this->event;
-    }
+    protected $prefix_parameter = 'gamma.';
+    protected $event = Events::LATE_APPLY_FILTER;
+    protected $default_arguments = array(
+        'correction' => 1.3
+    );
 
     public function apply() {
-        if (!is_null($this->arguments)) {
 
-            $this->imageManager->image->effects()->gamma($this->arguments['correction']);
-        }
+
+        $this->imageManager->image->effects()->gamma($this->arguments['correction']);
     }
-
 
 }

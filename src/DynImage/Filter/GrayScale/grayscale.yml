@@ -1,9 +1,0 @@
-parameters:
-   
-    
-services:
-    
-    grayscale:
-        class: DynImage\Filter\GrayScale\GrayScale
-        tags:
-            - {name: dynimage.filter}

@@ -12,10 +12,7 @@
     "require": {
 
         "imagine/imagine": "0.6.*@dev",
-        "symfony/config": "2.3.*@dev",
-        "symfony/dependency-injection": "2.2.*@dev",
-        "symfony/yaml": "2.3.*@dev"
-
+        "symfony/event-dispatcher": "2.5.*@dev"
     },
 
     "autoload": {

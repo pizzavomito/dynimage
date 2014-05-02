@@ -2,11 +2,11 @@
 
 namespace DynImage\Filter\Reflect;
 
-use Silex\Application;
+
 use DynImage\FilterInterface;
-use Symfony\Component\HttpFoundation\Request;
+
 use Imagine\Image\Box;
-use Imagine\Image\Color;
+
 use Imagine\Image\Point;
 use Imagine\Image\Fill\Gradient\Vertical;
 use DynImage\Events;
@@ -20,21 +20,12 @@ use DynImage\Filter;
 class Reflect extends Filter implements FilterInterface {
 
     protected $event = Events::FINISH_CREATE_IMAGE;
-
-    public function __construct($arguments = null) {
-
-        $default_arguments = array(
+    protected $prefix_parameter ='reflect.';
+    protected $default_arguments = array(
             'color' => 'ffffff'
         );
-        if (is_null($arguments)) {
-            $arguments = array();
-        }
-        $this->arguments = array_replace_recursive($default_arguments, $arguments);
-    }
 
-    public function getEvent() {
-        return $this->event;
-    }
+   
 
     public function apply() {
         $size = $this->imageManager->image->getSize();

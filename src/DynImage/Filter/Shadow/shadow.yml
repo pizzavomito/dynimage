@@ -1,9 +1,0 @@
-parameters:
-    shadow_class: DynImage\Filter\Shadow\Shadow
-    
-services:
-    
-    shadow:
-        class: %shadow_class%
-        tags:
-            - {name: dynimage.filter}

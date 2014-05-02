@@ -1,9 +1,0 @@
-parameters:
-    blur_class: DynImage\Filter\Blur\Blur
-    
-services:
-    
-    blur:
-        class: %blur_class%
-        tags:
-            - {name: dynimage.filter}

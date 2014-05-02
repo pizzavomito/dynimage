@@ -1,9 +1,0 @@
-parameters:
-    reflect_class: DynImage\Filter\Reflect\Reflect
-    
-services:
-    
-    reflect:
-        class: %reflect_class%
-        tags:
-            - {name: dynimage.filter}

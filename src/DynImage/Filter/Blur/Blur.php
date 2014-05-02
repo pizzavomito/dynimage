@@ -13,6 +13,7 @@ use DynImage\Filter;
  */
 class Blur extends Filter implements FilterInterface {
 
+    protected $prefix_parameter = 'blur.';
     protected $event = Events::AFTER_CREATE_IMAGE;
 
     public function __construct($arguments = null) {
@@ -25,16 +26,11 @@ class Blur extends Filter implements FilterInterface {
         $this->arguments = array_replace_recursive($default_arguments, $arguments);
     }
 
-    public function getEvent() {
-        return $this->event;
-    }
 
     public function apply() {
 
-        if (!is_null($this->arguments)) {
-
-            $this->imageManager->image->effects()->blur($this->arguments['sigma']);
-        }
+         $this->imageManager->image->effects()->blur($this->arguments['sigma']);
+ 
     }
 
 }

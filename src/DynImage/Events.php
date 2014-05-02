@@ -8,8 +8,7 @@ final class Events {
      const AFTER_CREATE_IMAGE = 'dynimage.after.create.image';
      const FINISH_CREATE_IMAGE = 'dynimage.finish.create.image';
      
-     const BREAKFAST_APPLY_FILTER = 'dynimage.breakfast.apply.filter';
-     const LUNCH_APPLY_FILTER = 'dynimage.lunch.apply.filter';
-     const DINNER_APPLY_FILTER = 'dynimage.dinner.apply.filter';
+     const EARLY_APPLY_FILTER = 'dynimage.early.apply.filter';
+     const LATE_APPLY_FILTER = 'dynimage.late.apply.filter';
      
 }

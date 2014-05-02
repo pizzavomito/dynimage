@@ -13,12 +13,9 @@ use DynImage\Events;
  */
 class GrayScale extends Filter implements FilterInterface {
 
-    protected $event = Events::BREAKFAST_APPLY_FILTER;
     
-    public function getEvent() {
-        return $this->event;
-    }
-    
+    protected $event = Events::EARLY_APPLY_FILTER;
+        
     public function apply() {
 
 

@@ -1,9 +1,0 @@
-parameters:
-    gamma_class: DynImage\Filter\Gamma\Gamma
-    
-services:
-    
-    gamma:
-        class: %gamma_class%
-        tags:
-            - {name: dynimage.filter}

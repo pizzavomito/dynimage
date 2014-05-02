@@ -13,7 +13,7 @@ use DynImage\Filter;
  */
 class Polaroid extends Filter implements FilterInterface {
 
-    protected $PREFIX_PARAMETER = 'polaroid.';
+    protected $prefix_parameter = 'polaroid.';
     
     protected $event = Events::FINISH_CREATE_IMAGE;
 
