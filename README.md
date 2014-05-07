@@ -24,25 +24,28 @@ $transformer->add($color);
 $transformer->add($border);
 $transformer->add($reflect);
 
-$filename = 'path/to/image';
+$filename = '/path/to/image';
 
-DynImage::getImage($transformer, file_get_contents($filename), $filename)->show('png');
+$image = DynImage::getImage($transformer, file_get_contents($filename), $filename);
+
+$image->show('png);
+or
+$image->save('/path/to/image.png');
 ```
-## Events
+## Filter Application Order
 
 Filters listen to events of dynimage to apply at the right time. 
 Filters that are connected to the same event are applied in the order they were added to transformer.
 
 Events are :
 ```php
-  BEFORE_CREATE_IMAGE
   AFTER_CREATE_IMAGE
   EARLY_APPLY_FILTER
   LATE_APPLY_FILTER
   FINISH_CREATE_IMAGE
 ```
 
-You can change the event filter.
+Homeever, you can change the event of a filter like this.
 ```php
 $rotate = new Rotate(array('angle' => 45));
 $rotate->setEvent(Events::FINISH_CREATE_IMAGE);
