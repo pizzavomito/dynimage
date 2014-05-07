@@ -11,6 +11,7 @@ use DynImage\Filter\Border;
 use DynImage\Filter\Colorize;
 use DynImage\Filter\Reflect;
 use DynImage\DynImage;
+use DynImage\Transformer;
 
 $resize = new Resize(array('height' => 200, 'width' => 200));
 $color = new Colorize(array('color' => '#ff9900'));
@@ -48,6 +49,7 @@ Homever, you can change the event of a filter like this.
 ```php
 use DynImage\Events;
 use DynImage\Filter\Rotate;
+use DynImage\Transformer
 
 $rotate = new Rotate(array('angle' => 45));
 $rotate->setEvent(Events::FINISH_CREATE_IMAGE);
@@ -56,9 +58,6 @@ $transformer = new Transformer();
 $transformer->add($rotate);
 
 or
-
-use DynImage\Events;
-use DynImage\Filter\Rotate;
 
 $rotate = new Rotate(array('angle' => 45));
 
