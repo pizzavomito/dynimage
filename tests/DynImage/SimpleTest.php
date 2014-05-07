@@ -11,7 +11,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,'Imagick');
+        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Imagick');
         
         $size    = $image->getSize();
 
@@ -31,7 +31,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,'Gd');
+        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Gd');
         
         $size    = $image->getSize();
 
@@ -51,7 +51,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,'Gmagick');
+        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Gmagick');
         
         $size    = $image->getSize();
 
