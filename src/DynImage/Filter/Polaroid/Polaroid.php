@@ -30,15 +30,14 @@ class Polaroid extends Filter implements FilterInterface {
         if ($this->parameters['lib'] == 'Imagick') {
             
             $im = new \Imagick();
-            //$im->setImageMatte(true);
-            //$im = $this->imageManager->image->getImagick();
+            
             $im->readImageBlob($this->imageManager->image);
             $angle = $this->arguments['angle'];
             if ($this->arguments['random_angle']) {
                 $angle = rand(-45, 45);
             }
             $im->polaroidImage(new \ImagickDraw(), $angle);
-            //$this->imageManager->imagine->read($im);
+           
             $this->imageManager->image = new \Imagine\Imagick\Image($im, $this->imageManager->image->palette(), $this->imageManager->imagine->getMetadataReader()->readData($im));
         }
     }
