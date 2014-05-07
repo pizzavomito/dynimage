@@ -15,18 +15,11 @@ class Blur extends Filter implements FilterInterface {
 
     protected $prefix_parameter = 'blur.';
     protected $event = Events::AFTER_CREATE_IMAGE;
+     protected $default_arguments = array(
+        'sigma' => 3
+    );
 
-    public function __construct($arguments = null) {
-        $default_arguments = array(
-            'sigma' => 3
-        );
-        if (is_null($arguments)) {
-            $arguments = array();
-        }
-        $this->arguments = array_replace_recursive($default_arguments, $arguments);
-    }
-
-
+ 
     public function apply() {
 
          $this->imageManager->image->effects()->blur($this->arguments['sigma']);
