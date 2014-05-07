@@ -13,16 +13,12 @@ use DynImage\Filter\Reflect;
 use DynImage\DynImage;
 use DynImage\Transformer;
 
-$resize = new Resize(array('height' => 200, 'width' => 200));
-$color = new Colorize(array('color' => '#ff9900'));
-$border = new Border(array('height' => 6, 'width' => 6, 'color', '#000'));
-$reflect = new Reflect();
 
 $transformer = new Transformer();
-$transformer->add($resize);
-$transformer->add($color);
-$transformer->add($border);
-$transformer->add($reflect);
+$transformer->add(new Resize(array('height' => 200, 'width' => 200)));
+$transformer->add(new Colorize(array('color' => '#ff9900')));
+$transformer->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
+$transformer->add(new Reflect());
 
 $filename = '/path/to/image';
 
@@ -59,10 +55,8 @@ $transformer->add($rotate);
 
 or
 
-$rotate = new Rotate(array('angle' => 45));
-
 $transformer = new Transformer();
-$transformer->add($rotate, Events::FINISH_CREATE_IMAGE);
+$transformer->add(new Rotate(array('angle' => 45)), Events::FINISH_CREATE_IMAGE);
 
 ```
 ##License
