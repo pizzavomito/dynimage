@@ -16,7 +16,6 @@ before_script:
   - echo "extension=gmagick.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 php:
-  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
