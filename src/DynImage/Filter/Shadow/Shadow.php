@@ -37,7 +37,7 @@ class Shadow extends Filter implements FilterInterface {
 
     public function apply() {
 
-        if ($this->parameters['lib'] == 'Imagick') {
+        if ($this->parameters['driver'] == 'Imagick') {
             $palette = new \Imagine\Image\Palette\RGB();
             $color = $palette->color($this->arguments['color']);
 

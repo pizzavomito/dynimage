@@ -28,7 +28,7 @@ class Watermark extends Filter implements FilterInterface {
 
    
     public function apply() {
-        if ($this->parameters['lib'] == 'Imagick') {
+        if ($this->parameters['driver'] == 'Imagick') {
            
             $image = $this->imageManager->image->getImagick();
 
