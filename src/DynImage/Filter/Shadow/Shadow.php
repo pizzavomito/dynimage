@@ -2,9 +2,7 @@
 
 namespace DynImage\Filter\Shadow;
 
-use Silex\Application;
 use DynImage\FilterInterface;
-use Symfony\Component\HttpFoundation\Request;
 use DynImage\Events;
 use DynImage\Filter;
 
