@@ -6,15 +6,12 @@ use DynImage\FilterInterface;
 use DynImage\Filter;
 use DynImage\Events;
 
-/**
- * Noir et blanc
- *
- * @author pascal.roux
- */
+
 class GrayScale extends Filter implements FilterInterface {
 
     
     protected $event = Events::EARLY_APPLY_FILTER;
+    protected $default_arguments = array();
         
     public function apply() {
 
