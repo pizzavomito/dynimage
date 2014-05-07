@@ -28,7 +28,7 @@ $filename = '/path/to/image';
 
 $image = DynImage::getImage($transformer, file_get_contents($filename), $filename);
 
-$image->show('png);
+$image->show('png');
 or
 $image->save('/path/to/image.png');
 ```
