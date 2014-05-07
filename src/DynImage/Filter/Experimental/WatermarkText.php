@@ -1,35 +1,26 @@
 <?php
 
-namespace DynImage\Filter\Watermark;
+namespace DynImage\Filter\Experimental;
 
 use DynImage\FilterInterface;
 use DynImage\Filter;
 use DynImage\Events;
 
-/**
- * Description of Watermark
- *
- * @author pascal.roux
- */
-class Watermark extends Filter implements FilterInterface {
+class WatermarkText extends Filter implements FilterInterface {
 
-    protected $prefix_parameter ='watermark.';
-    
     protected $event = Events::AFTER_CREATE_IMAGE;
-
     protected $default_arguments = array(
-            'text' => 'Copyright',
-            'font' => 'DejaVu-Sans-Book',
-            'font_size' => 15,
-            'font_color' => '#999999',
-            'color' => '#333333',
-            'position' => 'SOUTHEAST'
-        );
+        'text' => 'Copyright',
+        'font' => 'DejaVu-Sans-Book',
+        'font_size' => 15,
+        'font_color' => '#999999',
+        'color' => '#333333',
+        'position' => 'SOUTHEAST'
+    );
 
-   
     public function apply() {
-        if ($this->parameters['driver'] == 'Imagick') {
-           
+        if ($this->options['driver'] == 'Imagick') {
+
             $image = $this->imageManager->image->getImagick();
 
 

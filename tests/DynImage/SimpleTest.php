@@ -4,7 +4,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     
     public function testResizeImagick()
     {
-        $resize = new DynImage\Filter\Resize\Resize(array('height' => 200, 'width' => 200));
+        $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
         $transformer = new DynImage\Transformer();
         $transformer->add($resize);
@@ -24,7 +24,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     
     public function testResizeGd()
     {
-        $resize = new DynImage\Filter\Resize\Resize(array('height' => 200, 'width' => 200));
+        $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
         $transformer = new DynImage\Transformer();
         $transformer->add($resize);
@@ -44,7 +44,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     
      public function testResizeGmagick()
     {
-        $resize = new DynImage\Filter\Resize\Resize(array('height' => 200, 'width' => 200));
+        $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
         $transformer = new DynImage\Transformer();
         $transformer->add($resize);

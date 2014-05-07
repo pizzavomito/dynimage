@@ -6,7 +6,7 @@ class Filter {
 
     protected $arguments;
     protected $imageManager;
-    protected $parameters;
+    protected $options;
 
     public function __construct($arguments = null) {
         if (is_null($arguments)) {
@@ -16,26 +16,16 @@ class Filter {
     }
 
     public function setEvent($event) {
-        if (is_object($event)) {
-            $event = $event->event;
-        }
+
         $this->event = $event;
     }
 
-    public function connect($imageManager, $dispatcher, $parameters) {
+    public function connect($imageManager, $dispatcher, $options) {
 
-        $this->parameters = $parameters;
+        $this->options = $options;
 
         $this->imageManager = $imageManager;
 
-        if (is_array($this->default_arguments)) {
-            foreach ($this->default_arguments as $key => $value) {
-
-                if (isset($this->parameters[$this->prefix_parameter . $key])) {
-                    $this->arguments[$key] = $this->parameters[$this->prefix_parameter . $key];
-                }
-            }
-        }
         $dispatcher->addListener($this->event, array($this, 'apply'));
     }
 
@@ -43,8 +33,5 @@ class Filter {
         return $this->arguments;
     }
 
-    public function getPrefixParameter() {
-        return $this->prefix_parameter;
-    }
 
 }

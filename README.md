@@ -6,10 +6,10 @@
 ## Basic Usage Example
 
 ```php
-use DynImage\Filter\Resize\Resize;
-use DynImage\Filter\Border\Border;
-use DynImage\Filter\Colorize\Colorize;
-use DynImage\Filter\Reflect\Reflect;
+use DynImage\Filter\Resize;
+use DynImage\Filter\Border;
+use DynImage\Filter\Colorize;
+use DynImage\Filter\Reflect;
 use DynImage\DynImage;
 
 $resize = new Resize(array('height' => 200, 'width' => 200));
@@ -44,13 +44,27 @@ Events are :
   FINISH_CREATE_IMAGE
 ```
 
-Homeever, you can change the event of a filter like this.
+Homever, you can change the event of a filter like this.
 ```php
 use DynImage\Events;
-use DynImage\Filter\Rotate\Rotate;
+use DynImage\Filter\Rotate;
 
 $rotate = new Rotate(array('angle' => 45));
 $rotate->setEvent(Events::FINISH_CREATE_IMAGE);
+
+$transformer = new Transformer();
+$transformer->add($rotate);
+
+or
+
+use DynImage\Events;
+use DynImage\Filter\Rotate;
+
+$rotate = new Rotate(array('angle' => 45));
+
+$transformer = new Transformer();
+$transformer->add($rotate, Events::FINISH_CREATE_IMAGE);
+
 ```
 ##License
 

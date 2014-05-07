@@ -8,23 +8,7 @@ use DynImage\Transformer;
 
 class DynImage {
 
-    static public function createImage(Transformer $transformer, $imageContent, $imagefilename, $parameters = array(), $driver = null) {
-
-        $imageManager = new ImageManager();
-        $imageManager->imagefilename = $imagefilename;
-
-        $dispatcher = new EventDispatcher();
-
-        $filters = $transformer->getFilters();
-
-        if (!empty($filters)) {
-            foreach ($filters as $filter) {
-
-                $filter->connect($imageManager, $dispatcher, $parameters);
-            }
-        }
-
-        $dispatcher->dispatch(Events::BEFORE_CREATE_IMAGE);
+    static public function createImage(Transformer $transformer, $imageContent, $imagefilename, $driver = null, $options = array()) {
 
         if (is_null($driver)) {
             if (class_exists('\Gmagick')) {
@@ -36,6 +20,24 @@ class DynImage {
             }
         }
         
+        $options['driver'] = $driver;
+        
+        $imageManager = new ImageManager();
+        $imageManager->imagefilename = $imagefilename;
+
+        $dispatcher = new EventDispatcher();
+
+        $filters = $transformer->getFilters();
+
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+
+                $filter->connect($imageManager, $dispatcher, $options);
+            }
+        }
+
+        $dispatcher->dispatch(Events::BEFORE_CREATE_IMAGE);
+ 
         $class = sprintf('\Imagine\%s\Imagine', $driver);
 
         $imageManager->imagine = new $class();
@@ -55,8 +57,8 @@ class DynImage {
         return $imageManager;
     }
 
-    static public function getImage(Transformer $transformer, $imageContent, $imagefilename, $lib = 'Gd', $parameters = array()) {
-        $imageManager = self::createImage($transformer, $imageContent, $imagefilename, $lib, $parameters);
+    static public function getImage(Transformer $transformer, $imageContent, $imagefilename, $driver = null, $options = array()) {
+        $imageManager = self::createImage($transformer, $imageContent, $imagefilename, $driver, $options);
 
         return $imageManager->image;
     }

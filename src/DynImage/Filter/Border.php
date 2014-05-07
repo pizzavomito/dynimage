@@ -1,27 +1,19 @@
 <?php
 
-namespace DynImage\Filter\Border;
+namespace DynImage\Filter;
 
 use DynImage\FilterInterface;
 use DynImage\Events;
 use DynImage\Filter;
 
-/**
- * Ajoute une bordure
- *
- * @author pascal.roux
- */
 class Border extends Filter implements FilterInterface {
 
-    protected $prefix_parameter = 'border.';
     protected $event = Events::LATE_APPLY_FILTER;
     protected $default_arguments = array(
-            'color' => '000000',
-            'height' => 5,
-            'width' => 5,
-        );
-    
-    
+        'color' => '000000',
+        'height' => 5,
+        'width' => 5,
+    );
 
     public function apply() {
 

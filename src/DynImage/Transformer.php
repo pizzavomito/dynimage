@@ -2,6 +2,8 @@
 
 namespace DynImage;
 
+use DynImage\FilterInterface;
+
 class Transformer {
     
     private $filters;
@@ -11,12 +13,17 @@ class Transformer {
         $this->filters = array();
     }
     
-    public function add($filter) {
+    public function add(FilterInterface $filter, $event=null) {
        
-        array_push($this->filters,$filter);
+        if (!is_null($event)) {
+            $filter->setEvent($event);
+        }
+        
+        $this->filters[] = $filter;
     }
 
     public function getFilters() {
+
         return $this->filters;
     }
 }

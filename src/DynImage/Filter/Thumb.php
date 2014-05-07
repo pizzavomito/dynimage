@@ -1,20 +1,14 @@
 <?php
 
-namespace DynImage\Filter\Thumb;
+namespace DynImage\Filter;
 
 use DynImage\FilterInterface;
 use Imagine\Image\Box;
 use DynImage\Filter;
 use DynImage\Events;
 
-/**
- * Creation de miniature
- *
- * @author pascal.roux
- */
 class Thumb extends Filter implements FilterInterface {
 
-    protected $prefix_parameter = 'thumb.';
     protected $event = Events::AFTER_CREATE_IMAGE;
     protected $default_arguments = array(
         'width' => 100,

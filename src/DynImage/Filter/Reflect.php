@@ -1,31 +1,20 @@
 <?php
 
-namespace DynImage\Filter\Reflect;
-
+namespace DynImage\Filter;
 
 use DynImage\FilterInterface;
-
 use Imagine\Image\Box;
-
 use Imagine\Image\Point;
 use Imagine\Image\Fill\Gradient\Vertical;
 use DynImage\Events;
 use DynImage\Filter;
 
-/**
- * Effet Reflection
- *
- * @author pascal.roux
- */
 class Reflect extends Filter implements FilterInterface {
 
     protected $event = Events::FINISH_CREATE_IMAGE;
-    protected $prefix_parameter ='reflect.';
     protected $default_arguments = array(
-            'color' => 'ffffff'
-        );
-
-   
+        'color' => 'ffffff'
+    );
 
     public function apply() {
         $size = $this->imageManager->image->getSize();
@@ -53,5 +42,4 @@ class Reflect extends Filter implements FilterInterface {
                 ->paste($reflection, new Point(0, $size->getHeight()));
     }
 
-   
 }
