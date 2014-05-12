@@ -16,7 +16,7 @@ class Gamma extends Filter implements FilterInterface {
     public function apply() {
 
 
-        $this->imageManager->image->effects()->gamma($this->arguments['correction']);
+        $this->dynimage->image->effects()->gamma($this->arguments['correction']);
     }
 
 }

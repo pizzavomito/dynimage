@@ -15,7 +15,7 @@ class Blur extends Filter implements FilterInterface {
 
     public function apply() {
 
-        $this->imageManager->image->effects()->blur($this->arguments['sigma']);
+        $this->dynimage->image->effects()->blur($this->arguments['sigma']);
     }
 
 }

@@ -16,8 +16,8 @@ class RoundCorners extends Filter implements FilterInterface {
 
     public function apply() {
 
-        if ($this->parameters['driver'] == 'Imagick') {
-            $this->imageManager->image->getImagick()->roundCorners($this->arguments['x'], $this->arguments['y']);
+        if ($this->dynimage->options['driver'] == 'Imagick') {
+            $this->dynimage->image->getImagick()->roundCorners($this->arguments['x'], $this->arguments['y']);
         }
     }
 

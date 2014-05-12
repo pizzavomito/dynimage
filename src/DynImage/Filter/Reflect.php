@@ -17,7 +17,8 @@ class Reflect extends Filter implements FilterInterface {
     );
 
     public function apply() {
-        $size = $this->imageManager->image->getSize();
+        
+        $size = $this->dynimage->image->getSize();
         $canvas = new Box($size->getWidth(), $size->getHeight() * 2);
 
         $palette = new \Imagine\Image\Palette\RGB();
@@ -27,18 +28,18 @@ class Reflect extends Filter implements FilterInterface {
                 $size->getHeight(), $white->darken(127), $white
         );
 
-        $tr = $this->imageManager->imagine->create($size)
+        $tr = $this->dynimage->imagine->create($size)
                 ->fill($fill);
 
-        $reflection = $this->imageManager->image->copy()
+        $reflection = $this->dynimage->image->copy()
                 ->flipVertically()
                 ->applyMask($tr)
         ;
         $palette = new \Imagine\Image\Palette\RGB();
         $color = $palette->color($this->arguments['color']);
 
-        $this->imageManager->image = $this->imageManager->imagine->create($canvas, $color)
-                ->paste($this->imageManager->image, new Point(0, 0))
+        $this->dynimage->image = $this->dynimage->imagine->create($canvas, $color)
+                ->paste($this->dynimage->image, new Point(0, 0))
                 ->paste($reflection, new Point(0, $size->getHeight()));
     }
 

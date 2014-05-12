@@ -16,18 +16,18 @@ class Polaroid extends Filter implements FilterInterface {
 
     public function apply() {
 
-        if ($this->options['driver'] == 'Imagick') {
+        if ($this->dynimage->options['driver'] == 'Imagick') {
 
             $im = new \Imagick();
 
-            $im->readImageBlob($this->imageManager->image);
+            $im->readImageBlob($this->dynimage->image);
             $angle = $this->arguments['angle'];
             if ($this->arguments['random_angle']) {
                 $angle = rand(-45, 45);
             }
             $im->polaroidImage(new \ImagickDraw(), $angle);
 
-            $this->imageManager->image = new \Imagine\Imagick\Image($im, $this->imageManager->image->palette(), $this->imageManager->imagine->getMetadataReader()->readData($im));
+            $this->dynimage->image = new \Imagine\Imagick\Image($im, $this->dynimage->image->palette(), $this->dynimage->imagine->getMetadataReader()->readData($im));
         }
     }
 

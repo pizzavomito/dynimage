@@ -16,7 +16,7 @@ class Rotate extends Filter implements FilterInterface {
     public function apply() {
 
 
-        $this->imageManager->image->rotate($this->arguments['angle']);
+        $this->dynimage->image->rotate($this->arguments['angle']);
     }
 
 }

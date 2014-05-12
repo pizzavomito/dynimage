@@ -2,17 +2,19 @@
 
 namespace DynImage;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use DynImage\DynImage;
+
 class Filter {
 
     protected $arguments;
-    protected $imageManager;
-    protected $options;
+    protected $dynimage;
 
     public function __construct($arguments = null) {
         if (is_null($arguments)) {
             $arguments = array();
         }
-        $this->arguments = array_replace_recursive($this->default_arguments, $arguments);
+        $this->arguments = array_replace($this->default_arguments, $arguments);
     }
 
     public function setEvent($event) {
@@ -20,11 +22,9 @@ class Filter {
         $this->event = $event;
     }
 
-    public function connect($imageManager, $dispatcher, $options) {
-
-        $this->options = $options;
-
-        $this->imageManager = $imageManager;
+    public function connect(DynImage $dynimage, EventDispatcher $dispatcher) {
+     
+        $this->dynimage = $dynimage;
 
         $dispatcher->addListener($this->event, array($this, 'apply'));
     }

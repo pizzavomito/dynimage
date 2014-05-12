@@ -16,7 +16,10 @@ class Thumb extends Filter implements FilterInterface {
     );
 
     public function apply() {
-        $this->imageManager->image = $this->imageManager->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
+         
+        $this->dynimage->image = $this->dynimage->image->thumbnail(new Box($this->arguments['width'], $this->arguments['height']));
+        
+       
     }
 
 }

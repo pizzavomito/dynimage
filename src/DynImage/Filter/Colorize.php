@@ -16,9 +16,9 @@ class Colorize extends Filter implements FilterInterface {
     public function apply() {
 
 
-        $color = $this->imageManager->image->palette()->color($this->arguments['color']);
+        $color = $this->dynimage->image->palette()->color($this->arguments['color']);
 
-        $this->imageManager->image->effects()->colorize($color);
+        $this->dynimage->image->effects()->colorize($color);
     }
 
 }

@@ -11,18 +11,16 @@ use DynImage\Filter\Border;
 use DynImage\Filter\Colorize;
 use DynImage\Filter\Reflect;
 use DynImage\DynImage;
-use DynImage\Transformer;
 
-
-$transformer = new Transformer();
-$transformer->add(new Resize(array('height' => 200, 'width' => 200)));
-$transformer->add(new Colorize(array('color' => '#ff9900')));
-$transformer->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
-$transformer->add(new Reflect());
+$dynimage = new DynImage();
+$dynimage->add(new Resize(array('height' => 200, 'width' => 200)));
+$dynimage->add(new Colorize(array('color' => '#ff9900')));
+$dynimage->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
+$dynimage->add(new Reflect());
 
 $filename = '/path/to/image';
 
-$image = DynImage::getImage($transformer, file_get_contents($filename), $filename);
+$image = $dynimage->apply(file_get_contents($filename));
 
 $image->show('png');
 or
@@ -41,22 +39,19 @@ Events are :
   FINISH_CREATE_IMAGE
 ```
 
-Homever, you can change the event of a filter like this.
+However, you can change the event of a filter like this.
 ```php
 use DynImage\Events;
 use DynImage\Filter\Rotate;
-use DynImage\Transformer
 
 $rotate = new Rotate(array('angle' => 45));
 $rotate->setEvent(Events::FINISH_CREATE_IMAGE);
 
-$transformer = new Transformer();
-$transformer->add($rotate);
-
+$dynimage = new DynImage();
+$dynimage->add($rotate);
 or
-
-$transformer = new Transformer();
-$transformer->add(new Rotate(array('angle' => 45)), Events::FINISH_CREATE_IMAGE);
+$dynimage = new DynImage();
+$dynimage->add(new Rotate(array('angle' => 45)), Events::FINISH_CREATE_IMAGE);
 
 ```
 ##License

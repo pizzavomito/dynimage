@@ -1,18 +1,17 @@
 <?php
 
-
-
 namespace DynImage;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use DynImage\DynImage;
 
-interface FilterInterface
-{
-    
-    
+interface FilterInterface {
+
     public function apply();
-    public function getArguments();
-    public function setEvent($event);
-    public function connect($imageManager, $dispatcher, $options);
-    
-}
 
+    public function getArguments();
+
+    public function setEvent($event);
+
+    public function connect(DynImage $dynimage, EventDispatcher $dispatcher);
+}

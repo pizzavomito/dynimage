@@ -21,7 +21,7 @@ class Crop extends Filter implements FilterInterface {
     public function apply() {
 
 
-        $this->imageManager->image->crop(new Point($this->arguments['x'], $this->arguments['y']), new Box($this->arguments['width'], $this->arguments['height']));
+        $this->dynimage->image->crop(new Point($this->arguments['x'], $this->arguments['y']), new Box($this->arguments['width'], $this->arguments['height']));
     }
 
 }

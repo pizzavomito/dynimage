@@ -17,10 +17,10 @@ class Border extends Filter implements FilterInterface {
 
     public function apply() {
 
-        $color = $this->imageManager->image->palette()->color($this->arguments['color']);
+        $color = $this->dynimage->image->palette()->color($this->arguments['color']);
         $c = new \Imagine\Filter\Advanced\Border($color, $this->arguments['width'], $this->arguments['height']);
 
-        $this->imageManager->image = $c->apply($this->imageManager->image);
+        $this->dynimage->image = $c->apply($this->dynimage->image);
     }
 
 }

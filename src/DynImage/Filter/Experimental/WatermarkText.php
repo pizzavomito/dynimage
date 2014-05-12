@@ -19,9 +19,9 @@ class WatermarkText extends Filter implements FilterInterface {
     );
 
     public function apply() {
-        if ($this->options['driver'] == 'Imagick') {
+        if ($this->dynimage->options['driver'] == 'Imagick') {
 
-            $image = $this->imageManager->image->getImagick();
+            $image = $this->dynimage->image->getImagick();
 
 
             $watermark = new \Imagick();

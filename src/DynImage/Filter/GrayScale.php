@@ -17,7 +17,7 @@ class GrayScale extends Filter implements FilterInterface {
     public function apply() {
 
 
-        $this->imageManager->image->effects()->grayscale();
+        $this->dynimage->image->effects()->grayscale();
     }
 
 }

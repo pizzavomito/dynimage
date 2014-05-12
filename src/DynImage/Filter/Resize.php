@@ -17,7 +17,7 @@ class Resize extends Filter implements FilterInterface {
 
     public function apply() {
 
-        $this->imageManager->image->resize(new Box($this->arguments['width'], $this->arguments['height']));
+        $this->dynimage->image->resize(new Box($this->arguments['width'], $this->arguments['height']));
     }
 
 }
