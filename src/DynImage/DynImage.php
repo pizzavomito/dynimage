@@ -3,7 +3,7 @@
 namespace DynImage;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use DynImage\Transformer;
+
 
 class DynImage {
 

@@ -6,12 +6,12 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     {
         $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
-        $transformer = new DynImage\Transformer();
-        $transformer->add($resize);
+        $dynimage = new DynImage\DynImage();
+        $dynimage->add($resize);
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Imagick');
+        $image = $dynimage->apply(file_get_contents($filename), DynImage\Drivers::IMAGICK);
         
         $size    = $image->getSize();
 
@@ -26,12 +26,12 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     {
         $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
-        $transformer = new DynImage\Transformer();
-        $transformer->add($resize);
+       $dynimage = new DynImage\DynImage();
+        $dynimage->add($resize);
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Gd');
+        $image = $dynimage->apply(file_get_contents($filename),DynImage\Drivers::GD);
         
         $size    = $image->getSize();
 
@@ -46,12 +46,12 @@ class SimpleTest extends \PHPUnit_Framework_TestCase {
     {
         $resize = new DynImage\Filter\Resize(array('height' => 200, 'width' => 200));
         
-        $transformer = new DynImage\Transformer();
-        $transformer->add($resize);
+        $dynimage = new DynImage\DynImage();
+        $dynimage->add($resize);
         
         $filename = __DIR__.'/Fixtures/test.jpg';
         
-        $image = DynImage\DynImage::getImage($transformer,file_get_contents($filename),$filename,array(),'Gmagick');
+        $image = $dynimage->apply(file_get_contents($filename),DynImage\Drivers::GMAGICK);
         
         $size    = $image->getSize();
 
