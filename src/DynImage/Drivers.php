@@ -7,6 +7,6 @@ final class Drivers {
     
      const IMAGICK  = 'Imagick';
      const GMAGICK  = 'Gmagick';
-     const GD       = 'GD';
+     const GD       = 'Gd';
      
 }
