@@ -10,6 +10,13 @@ class DynImage {
     public $image;
     public $imagine;
     public $options;
+    
+    private $driver = null;
+    private $filters = array();
+    
+    public function getFilters() {
+        return $this->filters;
+    }
 
     public function add(FilterInterface $filter, $event = null) {
 
@@ -20,28 +27,40 @@ class DynImage {
         $this->filters[] = $filter;
     }
 
-    public function apply($imageContent, $driver = null, $options = array()) {
-
-        if (is_null($driver)) {
+    public function setDriver($driver=null) {
+         if (is_null($driver) && is_null($this->driver)) {
             if (class_exists('\Gmagick')) {
-                $driver = 'Gmagick';
+                $this->driver = 'Gmagick';
             } elseif (class_exists('\Imagick')) {
-                $driver = 'Imagick';
+                $this->driver = 'Imagick';
             } else {
-                $driver = 'Gd';
+                $this->driver = 'Gd';
             }
         }
+        else {
+            $this->driver = $driver;
+        }
+        
+    }
+    
+    public function getDriver() {
+        return $this->driver;
+    }
+    
+    public function apply($imageContent, $driver = null, $options = array()) {
+
+        if (empty($this->filters)) {
+            return;
+        }
+        
+        $this->setDriver($driver);
 
         $this->options = $options;
         $this->options['driver'] = $driver;
 
         $dispatcher = new EventDispatcher();
 
-        if (empty($this->filters)) {
-            return;
-        }
-
-        $class = sprintf('\Imagine\%s\Imagine', $driver);
+        $class = sprintf('\Imagine\%s\Imagine', $this->driver);
 
         $this->imagine = new $class();
 
