@@ -19,7 +19,7 @@ class WatermarkText extends Filter implements FilterInterface {
     );
 
     public function apply() {
-        if ($this->dynimage->options['driver'] == 'Imagick') {
+         if ($this->dynimage->getDriver() == 'Imagick') {
 
             $image = $this->dynimage->image->getImagick();
 

@@ -19,7 +19,7 @@ class DropShadow extends Filter implements FilterInterface {
 
     public function apply() {
        
-        if ($this->dynimage->options['driver'] == 'Imagick') {
+        if ($this->dynimage->getDriver() == 'Imagick') {
             
             $palette = new \Imagine\Image\Palette\RGB();
             $color = $palette->color($this->arguments['color']);

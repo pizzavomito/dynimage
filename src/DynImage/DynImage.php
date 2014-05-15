@@ -4,16 +4,13 @@ namespace DynImage;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-
 class DynImage {
 
     public $image;
     public $imagine;
-    public $options;
-    
     private $driver = null;
     private $filters = array();
-    
+
     public function getFilters() {
         return $this->filters;
     }
@@ -27,8 +24,8 @@ class DynImage {
         $this->filters[] = $filter;
     }
 
-    public function setDriver($driver=null) {
-         if (is_null($driver) && is_null($this->driver)) {
+    public function setDriver($driver = null) {
+        if (is_null($driver) && is_null($this->driver)) {
             if (class_exists('\Gmagick')) {
                 $this->driver = 'Gmagick';
             } elseif (class_exists('\Imagick')) {
@@ -36,27 +33,22 @@ class DynImage {
             } else {
                 $this->driver = 'Gd';
             }
-        }
-        else {
+        } else {
             $this->driver = $driver;
         }
-        
     }
-    
+
     public function getDriver() {
         return $this->driver;
     }
-    
-    public function apply($imageContent, $driver = null, $options = array()) {
+
+    public function apply($imageContent, $driver = null) {
 
         if (empty($this->filters)) {
             return;
         }
-        
-        $this->setDriver($driver);
 
-        $this->options = $options;
-        $this->options['driver'] = $driver;
+        $this->setDriver($driver);
 
         $dispatcher = new EventDispatcher();
 
@@ -70,16 +62,17 @@ class DynImage {
 
             $filter->connect($this, $dispatcher);
         }
-        
+
         $dispatcher->dispatch(Events::AFTER_CREATE_IMAGE);
-        
+
         $dispatcher->dispatch(Events::EARLY_APPLY_FILTER);
 
         $dispatcher->dispatch(Events::LATE_APPLY_FILTER);
 
         $dispatcher->dispatch(Events::FINISH_CREATE_IMAGE);
-        
-         
+
+       // $this->image->strip();
+
         return $this->image;
     }
 
