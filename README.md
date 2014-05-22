@@ -19,11 +19,12 @@ $dynimage->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
 $dynimage->add(new Reflect());
 
 $filename = '/path/to/image';
+$content = file_get_contents($filename);
 
-$image = $dynimage->apply(file_get_contents($filename));
+$image = $dynimage->apply($content);
 
 $image->show('png');
-or
+
 $image->save('/path/to/image.png');
 ```
 ## Filter Application Order
