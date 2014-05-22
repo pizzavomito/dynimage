@@ -71,8 +71,6 @@ class DynImage {
 
         $dispatcher->dispatch(Events::FINISH_CREATE_IMAGE);
 
-       // $this->image->strip();
-
         return $this->image;
     }
 
