@@ -18,8 +18,7 @@ $dynimage->add(new Colorize(array('color' => '#ff9900')));
 $dynimage->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
 $dynimage->add(new Reflect());
 
-$filename = '/path/to/image';
-$content = file_get_contents($filename);
+$content = file_get_contents('/path/to/image');
 
 $image = $dynimage->apply($content);
 
