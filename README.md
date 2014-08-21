@@ -30,7 +30,7 @@ $image->save('/path/to/image.png');
 ## Filter Application Order
 
 Filters listen to events of dynimage to apply at the right time. 
-Filters that are connected to the same event are applied in the order they were added to transformer.
+Filters that are connected to the same event are applied in the order they were added to Dynimage.
 
 Events are :
 ```php
