@@ -2,26 +2,21 @@
 
 [![Build Status](https://travis-ci.org/pizzavomito/dynimage.png)](https://travis-ci.org/pizzavomito/dynimage)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b79e32da-ab28-4697-b0b6-f3c5b13c07cd/mini.png)](https://insight.sensiolabs.com/projects/b79e32da-ab28-4697-b0b6-f3c5b13c07cd)
-[![Stillmaintained](http://stillmaintained.com/pizzavomito/dynimage.png)](http://stillmaintained.com/pizzavomito/dynimage)
 
 ## Basic Usage Example
 
 ```php
-use DynImage\Filter\Resize;
-use DynImage\Filter\Border;
-use DynImage\Filter\Colorize;
-use DynImage\Filter\Reflect;
-use DynImage\DynImage;
 
-$dynimage = new DynImage();
-$dynimage->add(new Resize(array('height' => 200, 'width' => 200)));
-$dynimage->add(new Colorize(array('color' => '#ff9900')));
-$dynimage->add(new Border(array('height' => 6, 'width' => 6, 'color', '#000')));
-$dynimage->add(new Reflect());
+$dynimage = new DynImage\DynImage();
+$dynimage->add((new DynImage\Filter\Resize())->setHeight(200)->setWidth(200));
+$dynimage->add((new DynImage\Filter\Border())->setHeight(10)->setWidth(10));
+$dynimage->add((new DynImage\Filter\Blur())->setSigma(5));
+$dynimage->add((new DynImage\Filter\Colorize())->setColor('ff9900'));
+$dynimage->add((new DynImage\Filter\Gamma())->setCorrection(1.5));
+$dynimage->add((new DynImage\Filter\Reflect())->setColor('ff9900'));
+$dynimage->add((new DynImage\Filter\Crop())->setX(10)->setY(10));
 
-$content = file_get_contents('/path/to/image');
-
-$image = $dynimage->apply($content);
+$image = $dynimage->apply(file_get_contents('/path/to/image'));
 
 $image->show('png');
 

@@ -17,13 +17,13 @@ $crop = (new DynImage\Filter\Crop())->setX(10)->setY(10);
 
 
 $dynimage = new DynImage\DynImage();
-$dynimage->add($resize);
-$dynimage->add($border);
-$dynimage->add($blur);
-$dynimage->add($colorize);
-$dynimage->add($gamma);
-$dynimage->add($reflect);
-$dynimage->add($crop);
+$dynimage->add((new DynImage\Filter\Resize())->setHeight(200)->setWidth(200));
+$dynimage->add((new DynImage\Filter\Border())->setHeight(10)->setWidth(10));
+$dynimage->add((new DynImage\Filter\Blur())->setSigma(5));
+$dynimage->add((new DynImage\Filter\Colorize())->setColor('ff9900'));
+$dynimage->add((new DynImage\Filter\Gamma())->setCorrection(1.5));
+$dynimage->add((new DynImage\Filter\Reflect())->setColor('ff9900'));
+$dynimage->add((new DynImage\Filter\Crop())->setX(10)->setY(10));
 
 $filename = __DIR__ . '/tests/DynImage/Fixtures/test.jpg';
 
