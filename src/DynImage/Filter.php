@@ -3,35 +3,26 @@
 namespace DynImage;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use DynImage\DynImage;
+use DynImage\DynImageAware;
 
 class Filter {
 
-    protected $arguments;
-    protected $dynimage;
+    /**
+     * @var DynImageAware
+     */
+    protected $dynImageAware;
 
-    public function __construct($arguments = null) {
-        if (is_null($arguments)) {
-            $arguments = array();
-        }
-        $this->arguments = array_replace($this->default_arguments, $arguments);
-    }
 
     public function setEvent($event) {
 
         $this->event = $event;
     }
 
-    public function connect(DynImage $dynimage, EventDispatcher $dispatcher) {
+    public function connect(DynImageAware $dynImageAware, EventDispatcher $dispatcher) {
      
-        $this->dynimage = $dynimage;
+        $this->dynImageAware = $dynImageAware;
 
         $dispatcher->addListener($this->event, array($this, 'apply'));
     }
-
-    public function getArguments() {
-        return $this->arguments;
-    }
-
 
 }

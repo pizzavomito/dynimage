@@ -7,17 +7,54 @@ use DynImage\Events;
 use DynImage\Filter;
 use Imagine\Image\Box;
 
-class Resize extends Filter implements FilterInterface {
+class Resize extends Filter implements FilterInterface
+{
+    protected $height = 100;
+
+    protected $width = 100;
 
     protected $event = Events::LATE_APPLY_FILTER;
-    protected $default_arguments = array(
-        'width' => 100,
-        'height' => 100
-    );
 
-    public function apply() {
 
-        $this->dynimage->image->resize(new Box($this->arguments['width'], $this->arguments['height']));
+    public function apply()
+    {
+        $this->dynImageAware->getImage()->resize(new Box($this->width, $this->height));
     }
 
+
+    /**
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param int $height
+     * @return Resize
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @param int $width
+     * @return Resize
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
 }

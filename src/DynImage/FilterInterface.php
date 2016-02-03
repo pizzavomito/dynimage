@@ -9,9 +9,7 @@ interface FilterInterface {
 
     public function apply();
 
-    public function getArguments();
-
     public function setEvent($event);
 
-    public function connect(DynImage $dynimage, EventDispatcher $dispatcher);
+    public function connect(DynImageAware $dynImageAware, EventDispatcher $dispatcher);
 }

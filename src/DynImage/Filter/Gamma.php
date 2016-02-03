@@ -6,17 +6,32 @@ use DynImage\FilterInterface;
 use DynImage\Events;
 use DynImage\Filter;
 
-class Gamma extends Filter implements FilterInterface {
+class Gamma extends Filter implements FilterInterface
+{
+    protected $correction = 1.3;
 
     protected $event = Events::LATE_APPLY_FILTER;
-    protected $default_arguments = array(
-        'correction' => 1.3
-    );
 
-    public function apply() {
-
-
-        $this->dynimage->image->effects()->gamma($this->arguments['correction']);
+    public function apply()
+    {
+        $this->dynImageAware->getImage()->effects()->gamma($this->correction);
     }
 
+    /**
+     * @return float
+     */
+    public function getCorrection()
+    {
+        return $this->correction;
+    }
+
+    /**
+     * @param float $correction
+     */
+    public function setCorrection($correction)
+    {
+        $this->correction = $correction;
+
+        return $this;
+    }
 }

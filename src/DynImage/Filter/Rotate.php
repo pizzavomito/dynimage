@@ -6,17 +6,31 @@ use DynImage\FilterInterface;
 use DynImage\Filter;
 use DynImage\Events;
 
-class Rotate extends Filter implements FilterInterface {
-
+class Rotate extends Filter implements FilterInterface
+{
+    protected $angle = 45;
     protected $event = Events::LATE_APPLY_FILTER;
-    protected $default_arguments = array(
-        'angle' => 45
-    );
 
-    public function apply() {
-
-
-        $this->dynimage->image->rotate($this->arguments['angle']);
+    public function apply()
+    {
+        $this->dynImageAware->getImage()->rotate($this->angle);
     }
 
+    /**
+     * @return int
+     */
+    public function getAngle()
+    {
+        return $this->angle;
+    }
+
+    /**
+     * @param int $angle
+     * @return Rotate
+     */
+    public function setAngle($angle)
+    {
+        $this->angle = $angle;
+        return $this;
+    }
 }
