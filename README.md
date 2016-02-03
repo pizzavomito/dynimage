@@ -40,14 +40,13 @@ However, you can change the event of a filter like this.
 use DynImage\Events;
 use DynImage\Filter\Rotate;
 
-$rotate = new Rotate(array('angle' => 45));
-$rotate->setEvent(Events::FINISH_CREATE_IMAGE);
+$rotate = (new Rotate())->setAngle(45)->setEvent(Events::FINISH_CREATE_IMAGE);
 
-$dynimage = new DynImage();
+$dynimage = new DynImage\DynImage();
 $dynimage->add($rotate);
 or
-$dynimage = new DynImage();
-$dynimage->add(new Rotate(array('angle' => 45)), Events::FINISH_CREATE_IMAGE);
+$dynimage = new DynImage\DynImage();
+$dynimage->add((new Rotate())->setAngle(45), Events::FINISH_CREATE_IMAGE);
 
 ```
 ##License
